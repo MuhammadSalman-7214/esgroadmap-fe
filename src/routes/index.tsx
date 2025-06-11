@@ -7,6 +7,11 @@ import CarbonReduction from '../pages/carbonReduction';
 import SupportTicket from '../pages/supportTicket';
 import ActivateAccount from '../components/activateAccount';
 import Account from '../pages/account';
+import WasteAndRecycling from '../pages/wasteAndRecycling';
+import WaterManagement from '../pages/waterManagement';
+import GenderDiversity from '../pages/genderDiversity';
+import SupplyChain from '../pages/supplyChain';
+import Renewables from '../pages/renewables';
 
 export const routesConfig: RouteObject[] = [
   {
@@ -17,26 +22,26 @@ export const routesConfig: RouteObject[] = [
     path: '/carbon-reduction',
     element: <CarbonReduction />,
   },
-  // {
-  //   path: '/waste-and-recycling',
-  //   element: <WasteAndRecycling />,
-  // },
-  // {
-  //   path: '/water-management',
-  //   element: <WaterManagement />,
-  // },
-  // {
-  //   path: '/gender-diversity',
-  //   element: <GenderDiversity />,
-  // },
-  // {
-  //   path: '/supply-chain',
-  //   element: <SupplyChain />,
-  // },
-  // {
-  //   path: '/renewables',
-  //   element: <Renewables />,
-  // },
+  {
+    path: '/waste-and-recycling',
+    element: <WasteAndRecycling />,
+  },
+  {
+    path: '/water-management',
+    element: <WaterManagement />,
+  },
+  {
+    path: '/gender-diversity',
+    element: <GenderDiversity />,
+  },
+  {
+    path: '/supply-chain',
+    element: <SupplyChain />,
+  },
+  {
+    path: '/renewables',
+    element: <Renewables />,
+  },
   {
     path: '/auth/login',
     element: <Login />,
