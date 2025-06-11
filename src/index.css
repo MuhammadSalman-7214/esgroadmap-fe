@@ -1,0 +1,66 @@
+@import 'tailwindcss';
+
+.themebg {
+  background-color: #219e98;
+}
+
+.whitebg {
+  background-color: #ffffff;
+}
+
+.themetext {
+  color: #219e98;
+}
+
+.textwhite {
+  color: #ffffff;
+}
+
+.texterror {
+  color: #ef4444;
+}
+
+.textgray {
+  color: #374151;
+}
+
+.footerbg {
+  background-color: #000000;
+}
+
+.buttonbg {
+  background-color: #193839;
+}
+
+.buttonbg1 {
+  background-color: #06b6d4;
+}
+
+.buttonbg2 {
+  background-color: #000000;
+}
+
+.bordergray {
+  border-color: #e5e7eb;
+}
+
+.bordergrayRight {
+  border-radius: 2px;
+  border-right: #566a92;
+}
+
+.borderwhite {
+  border-color: #ffffff;
+}
+
+.bannerbg {
+  background-color: #e5eced;
+}
+
+.sidebarbg {
+  background-color: rgba(249, 249, 249, 0.7);
+}
+
+.tablebg {
+  background-color: #f9fafb;
+}
