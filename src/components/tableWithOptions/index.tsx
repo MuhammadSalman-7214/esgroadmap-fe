@@ -5,8 +5,6 @@ import {TableWithOptionsProps} from './type';
 import {useState} from 'react';
 import {extractors} from './constants';
 import {SentenceType} from '../../types/data';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
 
 const TableWithOptions = ({
   data,
@@ -19,13 +17,26 @@ const TableWithOptions = ({
   const sentenceData = extractor(data);
 
   const handleDownload = () => {
-    const doc = new jsPDF();
+    const csvRows = [];
+
+    const headers = [
+      'ID',
+      'Company',
+      'Document URL',
+      'Target Sentence',
+      'Target Year(s)',
+      'Country',
+      'Sector Code #1',
+      'Sector Name #1',
+      'Upload Date',
+    ];
+    csvRows.push(headers.join(','));
 
     const tableData = sentenceData.map((item) => [
       item.id?.toString() ?? '',
       item.Company ?? '',
       item.DocURL ?? '',
-      item.Target_sentence ?? '',
+      item.Target_sentence?.replace(/"/g, '""') ?? '',
       item.SentenceTargetYear ?? '',
       item.Country ?? '',
       item.SectorCode1 ?? '',
@@ -33,39 +44,21 @@ const TableWithOptions = ({
       item.upload_date ?? '',
     ]);
 
-    autoTable(doc, {
-      head: [
-        [
-          'ID',
-          'Company',
-          'Document URL',
-          'Target Sentence',
-          'Target Year(s)',
-          'Country',
-          'Sector Code #1',
-          'Sector Name #1',
-          'Upload Date',
-        ],
-      ],
-      body: tableData,
-      styles: {fontSize: 7, cellPadding: 1},
-      headStyles: {fillColor: '#219e98', halign: 'center'},
-      columnStyles: {
-        0: {cellWidth: 10},
-        1: {cellWidth: 20},
-        2: {cellWidth: 30},
-        3: {cellWidth: 30},
-        4: {cellWidth: 20},
-        5: {cellWidth: 20},
-        6: {cellWidth: 20},
-        7: {cellWidth: 20},
-        8: {cellWidth: 20},
-      },
-      margin: {top: 10, left: 10, right: 10},
-      pageBreak: 'auto',
-    });
+    for (const row of tableData) {
+      const formattedRow = row.map((field) => `"${field}"`).join(',');
+      csvRows.push(formattedRow);
+    }
 
-    doc.save(`${dataKey}_page${currentPage}.pdf`);
+    const csvContent = csvRows.join('\n');
+    const blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
+
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.href = url;
+    link.setAttribute('download', `${dataKey}_page${currentPage}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
