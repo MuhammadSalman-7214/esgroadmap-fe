@@ -2,8 +2,8 @@ import DashboardLayout from '../dashboardlayout';
 import TableWithOptions from '../../components/tableWithOptions';
 import ToolHeading from '../../components/toolHeading';
 import {useEffect, useState} from 'react';
-import axios from 'axios';
 import {SupplyChainDataType} from './type';
+import api from '../../middleware';
 
 const SupplyChain = () => {
   const [supplyChainData, setSupplyChainData] =
@@ -11,9 +11,7 @@ const SupplyChain = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const fetchSupplyChainData = async (page: number) => {
-    const res = await axios.get(
-      `https://esgroadmap-backend.vercel.app/api/v1/tool/supplyChain?page=${page}&limit=10`
-    );
+    const res = await api.get(`/tool/supplyChain?page=${page}&limit=10`);
     setSupplyChainData(res.data);
   };
 

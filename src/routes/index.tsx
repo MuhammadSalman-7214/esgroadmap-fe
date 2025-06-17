@@ -12,6 +12,9 @@ import WaterManagement from '../pages/waterManagement';
 import GenderDiversity from '../pages/genderDiversity';
 import SupplyChain from '../pages/supplyChain';
 import Renewables from '../pages/renewables';
+import Packages from '../components/packages';
+import UpgradePlan from '../components/upgradePlan';
+import Plans from '../pages/plans';
 
 export const routesConfig: RouteObject[] = [
   {
@@ -65,5 +68,9 @@ export const routesConfig: RouteObject[] = [
   {
     path: '/account',
     element: <Account />,
+  },
+  {
+    path: '/plans',
+    element: <Plans />,
   },
 ];

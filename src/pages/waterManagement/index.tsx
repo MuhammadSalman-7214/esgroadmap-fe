@@ -2,8 +2,8 @@ import DashboardLayout from '../dashboardlayout';
 import TableWithOptions from '../../components/tableWithOptions';
 import ToolHeading from '../../components/toolHeading';
 import {useEffect, useState} from 'react';
-import axios from 'axios';
 import {WaterManagementDataType} from './type';
+import api from '../../middleware';
 
 const WaterManagement = () => {
   const [waterManagementData, setWaterManagementData] =
@@ -11,9 +11,7 @@ const WaterManagement = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const fetchWaterManagementData = async (page: number) => {
-    const res = await axios.get(
-      `https://esgroadmap-backend.vercel.app/api/v1/tool/waterManagement?page=${page}&limit=10`
-    );
+    const res = await api.get(`/tool/waterManagement?page=${page}&limit=10`);
     setWaterManagementData(res.data);
   };
 

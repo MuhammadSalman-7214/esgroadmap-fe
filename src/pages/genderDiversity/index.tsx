@@ -2,8 +2,8 @@ import DashboardLayout from '../dashboardlayout';
 import TableWithOptions from '../../components/tableWithOptions';
 import ToolHeading from '../../components/toolHeading';
 import {useEffect, useState} from 'react';
-import axios from 'axios';
 import {GenderDiversityDataType} from './type';
+import api from '../../middleware';
 
 const GenderDiversity = () => {
   const [genderDiversityData, setGenderDiversityData] =
@@ -11,9 +11,7 @@ const GenderDiversity = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const fetchGenderDiversityData = async (page: number) => {
-    const res = await axios.get(
-      `https://esgroadmap-backend.vercel.app/api/v1/tool/sentenceGender?page=${page}&limit=10`
-    );
+    const res = await api.get(`/tool/sentenceGender?page=${page}&limit=10`);
     setGenderDiversityData(res.data);
   };
 

@@ -2,17 +2,15 @@ import DashboardLayout from '../dashboardlayout';
 import TableWithOptions from '../../components/tableWithOptions';
 import ToolHeading from '../../components/toolHeading';
 import {useEffect, useState} from 'react';
-import axios from 'axios';
 import {WasteAndRecyclingDataType} from './type';
+import api from '../../middleware';
 
 const WasteAndRecycling = () => {
   const [wasteAndRecyclingData, setWasteAndRecyclingData] =
     useState<WasteAndRecyclingDataType | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const fetchWasteAndRecyclingData = async (page: number) => {
-    const res = await axios.get(
-      `https://esgroadmap-backend.vercel.app/api/v1/tool/wasteAndRecycling?page=${page}&limit=10`
-    );
+    const res = await api.get(`/tool/wasteAndRecycling?page=${page}&limit=10`);
     setWasteAndRecyclingData(res.data);
   };
 

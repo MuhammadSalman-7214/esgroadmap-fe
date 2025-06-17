@@ -2,6 +2,7 @@ import DashboardLayout from '../dashboardlayout';
 import ToolHeading from '../../components/toolHeading';
 import ChangePasswordForm from '../../components/form/changePassword';
 import EditProfileForm from '../../components/form/editProfile';
+import UpgradePlan from '../../components/upgradePlan';
 
 const Account = () => {
   return (
@@ -13,7 +14,9 @@ const Account = () => {
           <EditProfileForm />
           <ChangePasswordForm />
         </div>
-        <div className="w-1/2">{/* <ChangePasswordForm /> */}</div>
+        <div className="w-1/2">
+          <UpgradePlan />
+        </div>
       </div>
     </DashboardLayout>
   );
