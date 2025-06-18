@@ -2,7 +2,6 @@ import TableHeader from '../tableHeader';
 import Table from '../table';
 import Pagination from '../pagination';
 import {TableWithOptionsProps} from './type';
-import {useState} from 'react';
 import {extractors} from './constants';
 import {SentenceType} from '../../types/data';
 
@@ -11,8 +10,10 @@ const TableWithOptions = ({
   dataKey,
   currentPage,
   setCurrentPage,
+  searchTerm,
+  setSearchTerm,
+  onSaveSearch,
 }: TableWithOptionsProps) => {
-  const [search, setSearch] = useState('');
   const extractor = extractors[dataKey] as (d: typeof data) => SentenceType[];
   const sentenceData = extractor(data);
 
@@ -64,9 +65,10 @@ const TableWithOptions = ({
   return (
     <div className="border-3 bordergray tablebg rounded-lg mx-3">
       <TableHeader
-        search={search}
-        setSearch={setSearch}
+        search={searchTerm}
+        setSearch={setSearchTerm}
         onDownload={handleDownload}
+        onSaveSearch={onSaveSearch}
       />
       <div className="overflow-y-auto max-h-[calc(97vh-200px)]">
         <Table data={sentenceData} />

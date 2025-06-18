@@ -2,13 +2,22 @@ import DropdownButton from '../exportCsvButton';
 import SearchInput from '../searchInput';
 import {TableHeaderProps} from './type';
 
-const TableHeader = ({setSearch, search, onDownload}: TableHeaderProps) => {
+const TableHeader = ({
+  setSearch,
+  search,
+  onDownload,
+  onSaveSearch,
+}: TableHeaderProps) => {
   return (
     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-6 px-4 py-4 rounded-t-lg">
       <div className="flex gap-4 sm:gap-6">
         <DropdownButton image={'/icons/download.svg'} onClick={onDownload} />
       </div>
-      <SearchInput setSearch={setSearch} search={search} />
+      <SearchInput
+        setSearch={setSearch}
+        search={search}
+        onSaveSearch={onSaveSearch}
+      />
     </div>
   );
 };

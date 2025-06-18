@@ -23,4 +23,7 @@ export interface TableWithOptionsProps {
     | 'renewablesSentence';
   currentPage: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
+  searchTerm: string;
+  setSearchTerm: Dispatch<SetStateAction<string>>;
+  onSaveSearch: () => void;
 }

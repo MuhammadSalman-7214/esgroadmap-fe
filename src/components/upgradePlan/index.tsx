@@ -6,7 +6,7 @@ const UpgradePlan: FunctionComponent = () => {
   return (
     <div className="w-full my-5 px-4 sm:px-6">
       <h1 className="text-2xl font-bold pt-6 pb-5 themetext text-start">
-        Change Password
+        Update Package
       </h1>
       <div className="flex flex-col space-y-4">
         <span className="w-full">Current Package : -------</span>
