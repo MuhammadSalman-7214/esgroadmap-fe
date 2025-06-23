@@ -61,13 +61,24 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
   ): string => {
     return location.pathname === path ? activeIcon : inactiveIcon;
   };
-  const renderIcon = (path: string, icon: string, label: string) => (
-    <img
-      src={getSvgIcon(path, `${icon}-white.svg`, `${icon}-black.svg`)}
-      alt={`${label} Icon`}
-      className="w-5 h-5 mr-0"
-    />
-  );
+  const renderIcon = (
+    path: string,
+    icon: string | React.ElementType,
+    label: string
+  ) => {
+    if (typeof icon === 'string') {
+      return (
+        <img
+          src={getSvgIcon(path, `${icon}-white.svg`, `${icon}-black.svg`)}
+          alt={`${label} Icon`}
+          className="w-5 h-5"
+        />
+      );
+    } else {
+      const LucideIcon = icon;
+      return <LucideIcon className="w-5 h-5" />;
+    }
+  };
 
   return (
     <div className="sidebarbg min-h-full w-full font-customFont">

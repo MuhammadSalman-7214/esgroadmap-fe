@@ -9,5 +9,5 @@ export interface SiderItem {
   id: number;
   path: string;
   label: string;
-  icon: string;
+  icon: string | React.ElementType;
 }

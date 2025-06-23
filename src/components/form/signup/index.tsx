@@ -12,6 +12,7 @@ import {isAuthenticated} from '../../../utils/auth';
 import * as Paddle from '@paddle/paddle-js';
 import api from '../../../middleware';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const CLIENT_SIDE_TOKEN = import.meta.env.CLIENT_SIDE_TOKEN;
 
 const SignUpForm: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ const SignUpForm: FunctionComponent = () => {
   useEffect(() => {
     const init = async () => {
       await Paddle.initializePaddle({
-        token: 'test_b1eec75ae400731203d413a79f3',
+        token: `${CLIENT_SIDE_TOKEN}`,
         environment: 'sandbox',
         eventCallback: async (event: any) => {
           if (event.name === 'checkout.completed') {

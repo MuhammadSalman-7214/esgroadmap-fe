@@ -5,6 +5,7 @@ import api from '../../middleware';
 import Button from '../../components/ui/button';
 import {toast} from 'react-toastify';
 import {PackageProp, Plan} from './type';
+const CLIENT_SIDE_TOKEN = import.meta.env.CLIENT_SIDE_TOKEN;
 
 const Plans = () => {
   const [plans, setPlans] = useState<Plan[]>([]);
@@ -59,7 +60,7 @@ const Plans = () => {
   useEffect(() => {
     const init = async () => {
       await Paddle.initializePaddle({
-        token: 'test_b1eec75ae400731203d413a79f3',
+        token: `${CLIENT_SIDE_TOKEN}`,
         environment: 'sandbox',
         eventCallback: async (event: any) => {
           console.log('🚀 Paddle Event:', event);

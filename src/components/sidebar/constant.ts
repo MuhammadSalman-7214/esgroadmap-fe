@@ -1,3 +1,4 @@
+import {Recycle, Droplets, Users, Sun, Boxes} from 'lucide-react'; // use other icons if preferred
 import {SiderItem} from './type';
 
 export const siderItems: SiderItem[] = [
@@ -12,43 +13,43 @@ export const siderItems: SiderItem[] = [
     id: 3,
     path: '/waste-and-recycling',
     label: 'Waste and Recycling',
-    icon: '/icons/wast-and-recyling',
+    icon: Recycle,
   },
   {
     id: 4,
     path: '/water-management',
     label: 'Water Management',
-    icon: '/icons/water-management',
+    icon: Droplets,
   },
   {
     id: 5,
     path: '/gender-diversity',
     label: 'Gender Diversity',
-    icon: '/icons/gender-diversity',
-  },
-  {
-    id: 4,
-    path: '/supply-chain',
-    label: 'Supply Chain',
-    icon: '/icons/supply-chain',
-  },
-  {
-    id: 5,
-    path: '/renewables',
-    label: 'Renewables',
-    icon: '/icons/renewables',
+    icon: Users,
   },
   {
     id: 6,
+    path: '/supply-chain',
+    label: 'Supply Chain',
+    icon: Sun,
+  },
+  {
+    id: 7,
+    path: '/renewables',
+    label: 'Renewables',
+    icon: Boxes,
+  },
+  {
+    id: 8,
     path: '/account',
     label: 'Account',
     icon: '/icons/circle-user',
   },
   {
-    id: 7,
+    id: 9,
     path: '/support-tickets',
     label: 'Support Tickets',
     icon: '/icons/head-phones',
   },
-  {id: 8, path: '#', label: 'FAQs', icon: '/icons/faqs'},
+  {id: 10, path: '/faqs', label: 'FAQs', icon: '/icons/faqs'},
 ];

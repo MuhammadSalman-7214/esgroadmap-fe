@@ -13,6 +13,7 @@ import GenderDiversity from '../pages/genderDiversity';
 import SupplyChain from '../pages/supplyChain';
 import Renewables from '../pages/renewables';
 import Plans from '../pages/plans';
+import Faq from '../pages/faq';
 
 export const routesConfig: RouteObject[] = [
   {
@@ -58,6 +59,10 @@ export const routesConfig: RouteObject[] = [
   {
     path: '/support-tickets',
     element: <SupportTicket />,
+  },
+  {
+    path: '/faqs',
+    element: <Faq />,
   },
   {
     path: '/auth/activate-account',
