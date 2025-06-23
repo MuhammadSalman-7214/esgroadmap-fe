@@ -30,6 +30,12 @@ export interface AuthMessages {
       required: string;
       minLength: string;
     };
+    planId: {
+      required: string;
+    };
+    planName: {
+      required: string;
+    };
   };
   changePassword: {
     oldPassword: {

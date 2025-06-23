@@ -32,6 +32,12 @@ const authMessages: AuthMessages = {
       required: 'Password is required',
       minLength: 'Password must be at least 6 characters',
     },
+    planId: {
+      required: 'Plan Id is required',
+    },
+    planName: {
+      required: 'Plan Name is required',
+    },
   },
   changePassword: {
     oldPassword: {

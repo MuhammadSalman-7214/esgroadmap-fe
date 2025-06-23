@@ -28,7 +28,8 @@ export const signUpSchema = z.object({
   confirmPassword: z
     .string({required_error: errors.auth.signup.password.required})
     .min(6, errors.auth.signup.password.minLength),
-  paymentMethod: z.enum(['paypal', 'stripe']),
+  planId: z.string({required_error: errors.auth.signup.planId.required}),
+  planName: z.string({required_error: errors.auth.signup.planName.required}),
 });
 
 export type SignUpFormData = z.infer<typeof signUpSchema>;

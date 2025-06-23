@@ -1,4 +1,4 @@
-import {FunctionComponent, useEffect, useState} from 'react';
+import {FunctionComponent, useEffect, useRef, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import Input from '../../ui/input';
@@ -6,19 +6,26 @@ import Button from '../../ui/button';
 import {toast} from 'react-toastify';
 import {Link} from 'react-router-dom';
 import {useNavigate} from 'react-router-dom';
-// import {PayPalButtons} from '@paypal/react-paypal-js';
 import {useLocation} from 'react-router-dom';
 import {SignUpFormData, signUpSchema} from '../../../validations/schema/auth';
 import {isAuthenticated} from '../../../utils/auth';
-
+import * as Paddle from '@paddle/paddle-js';
+import api from '../../../middleware';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const SignUpForm: FunctionComponent = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  // const [enablePayment, setEnablePayment] = useState(false);
   const location = useLocation();
   const {packageData} = location.state || {};
+
+  type SignUpPayload = {
+    username: string;
+    email: string;
+    password: string;
+    planId: string;
+    planName: string;
+  };
 
   const {
     register,
@@ -27,44 +34,118 @@ const SignUpForm: FunctionComponent = () => {
   } = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
   });
-  const onSubmit = async (data: SignUpFormData) => {
-    const {username, email, confirmEmail, password, confirmPassword} = data;
-    setIsLoading(true);
+  useEffect(() => {
+    const init = async () => {
+      await Paddle.initializePaddle({
+        token: 'test_b1eec75ae400731203d413a79f3',
+        environment: 'sandbox',
+        eventCallback: async (event: any) => {
+          if (event.name === 'checkout.completed') {
+            console.log('Checkout Event:', JSON.stringify(event, null, 2));
 
-    if (!username || !email || !confirmEmail || !password || !confirmPassword) {
-      toast.error('Please fill in all fields.');
-      setIsLoading(false);
+            const paddle = Paddle.getPaddleInstance('v1');
+            paddle?.Checkout.close();
+
+            if (!formDataRef.current) {
+              toast.error('Missing signup form data.');
+              return;
+            }
+
+            const customerId = event.data?.customer?.id;
+            if (!customerId) {
+              toast.error('Missing customer ID in checkout response.');
+              return;
+            }
+
+            try {
+              const signupResponse = await fetch(
+                `${API_BASE_URL}/api/v1/auth/signup`,
+                {
+                  method: 'POST',
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify({
+                    ...formDataRef.current,
+                    customerId: customerId,
+                  }),
+                }
+              );
+
+              if (!signupResponse.ok) {
+                const errorData = await signupResponse.json();
+                toast.error(`Signup failed: ${errorData.error}`);
+                return;
+              }
+
+              toast.success('Signup successful! You can now log in.');
+              navigate('/auth/login');
+            } catch (err) {
+              toast.error('An error occurred during signup.');
+              console.error('Signup error:', err);
+            }
+          }
+        },
+      });
+
+      return () => {};
+    };
+
+    init();
+  }, []);
+
+  const openCheckout = (priceId: string) => {
+    const paddle = Paddle.getPaddleInstance('v1');
+    if (!paddle) {
+      console.error('Paddle not initialized');
       return;
     }
 
+    paddle.Checkout.open({
+      items: [{priceId, quantity: 1}],
+      settings: {
+        displayMode: 'overlay',
+      },
+    });
+  };
+
+  const formDataRef = useRef<SignUpPayload | null>(null);
+
+  const onSubmit = async (data: SignUpFormData) => {
+    setIsLoading(true);
+
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/auth/signup`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({username, email, password}),
-      });
+      const findUserResponse = await api.post(
+        `${API_BASE_URL}/api/v1/auth/findUser`,
 
-      if (response.ok) {
-        await response.json();
+        {email: data.email}
+      );
 
-        toast.success('Sign in successful! ');
-        toast.info(
-          'Please check your email inbox and click on the activation link we sent you.'
-        );
+      const result = await findUserResponse.data;
+
+      if (result.message === true) {
+        toast.info('User already exists. Redirecting to login...');
         setTimeout(() => {
           navigate('/auth/login');
         }, 1000);
-      } else {
-        const errorData = await response.json();
-        toast.error(`Sign in failed: ${errorData.error}`);
+        return;
       }
-    } catch (err) {
-      toast.error('An error occurred during sign-in.');
-      console.error('Sign-in error:', err);
+
+      formDataRef.current = {
+        username: data.username,
+        email: data.email,
+        password: data.password,
+        planId: data.planId,
+        planName: data.planName,
+      };
+
+      openCheckout(data.planId);
+    } catch (error) {
+      toast.error('An error occurred while checking user status.');
+      console.error('Find user error:', error);
     } finally {
       setIsLoading(false);
     }
   };
+
   useEffect(() => {
     if (isAuthenticated()) {
       navigate('/dashboard');
@@ -102,7 +183,6 @@ const SignUpForm: FunctionComponent = () => {
             Already have an account? Log in here
           </Link>
         </div>
-
         <Input
           id="username"
           label="Username"
@@ -143,33 +223,12 @@ const SignUpForm: FunctionComponent = () => {
           {...register('confirmEmail')}
           errorMessage={errors.confirmEmail?.message}
         />
-      </div>
-
-      <div className="flex flex-col space-y-4 border-b-2 pb-5 bordergray">
-        <div className="themetext">
-          <h1 className="font-semibold text-2xl">Payment Method</h1>
-        </div>
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-2">
-            <Input
-              label="Pay with Stripe"
-              id="stripe"
-              type="radio"
-              value="stripe"
-              {...register('paymentMethod')}
-            />
-          </div>
-          <div className="flex items-center gap-2">
-            <Input
-              label="Pay with PayPal"
-              id="paypal"
-              type="radio"
-              value="paypal"
-              defaultChecked
-              {...register('paymentMethod')}
-            />
-          </div>
-        </div>
+        <input type="hidden" value={packageData.id} {...register('planId')} />
+        <input
+          type="hidden"
+          value={packageData.title}
+          {...register('planName')}
+        />
       </div>
 
       <div className="my-6">
@@ -180,27 +239,6 @@ const SignUpForm: FunctionComponent = () => {
           disabled={isLoading}
         />
       </div>
-      {/* {enablePayment ? (
-        <PayPalButtons
-          createOrder={(data, actions) => {
-            return actions.order.create({
-              intent: 'CAPTURE',
-              purchase_units: [
-                {
-                  amount: {
-                    value: '10.00',
-                    currency_code: 'USD',
-                  },
-                },
-              ],
-            });
-          }}
-          onApprove={async (data, actions) => {
-            const details = await actions.order?.capture();
-            console.log('Payment Approved!', details);
-          }}
-        />
-      ) : null} */}
     </form>
   );
 };

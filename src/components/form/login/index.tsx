@@ -51,7 +51,7 @@ const LoginForm: FunctionComponent = () => {
 
     try {
       const response = await axios.post(
-        `https://esgroadmap-backend.vercel.app/api/v1/auth/signin`,
+        `https://esgroadmap-be.vercel.app/api/v1/auth/signin`,
         {email, password},
         {
           withCredentials: true,
@@ -61,6 +61,9 @@ const LoginForm: FunctionComponent = () => {
       dispatch(setIsActive(response.data.isActive));
       localStorage.setItem('username', response.data.username);
       localStorage.setItem('email', response.data.email);
+      localStorage.setItem('planId', response.data.planId);
+      localStorage.setItem('planName', response.data.planName);
+      localStorage.setItem('customerId', response.data.customerId);
       toast.success('Sign in successful!');
       setTimeout(() => {
         if (fromActivateAccount) {

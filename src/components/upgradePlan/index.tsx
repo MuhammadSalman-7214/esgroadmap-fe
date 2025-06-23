@@ -9,7 +9,9 @@ const UpgradePlan: FunctionComponent = () => {
         Update Package
       </h1>
       <div className="flex flex-col space-y-4">
-        <span className="w-full">Current Package : -------</span>
+        <span className="w-full">
+          Current Package: {localStorage.getItem('planName')}
+        </span>
       </div>
 
       <Link to="/plans">

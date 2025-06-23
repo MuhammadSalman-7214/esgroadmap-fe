@@ -33,7 +33,7 @@ const ActivateAccount = () => {
         activate();
       }
     }
-  }, [isLoggedIn]);
+  }, []);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-200 px-4">
