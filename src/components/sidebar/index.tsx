@@ -17,6 +17,19 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const customerId = localStorage.getItem('customerId');
+  const alwaysVisibleLabels = [
+    'Dashboard',
+    'Carbon Reduction',
+    'Account',
+    'Support Tickets',
+    'FAQs',
+  ];
+
+  const filteredItems = siderItems.filter(
+    (item) => alwaysVisibleLabels.includes(item.label) && customerId
+  );
+
   useEffect(() => {
     if (location.pathname === '/') {
       navigate('/dashboard');
@@ -43,6 +56,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
   const handleLogout = () => {
     dispatch(setIsLoggedIn(false));
     dispatch(setIsActive(false));
+    localStorage.clear();
     toast.success('Logout successful!');
     setTimeout(() => {
       navigate('/auth/login');
@@ -93,7 +107,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
       </div>
 
       <div className="text-start text-lg md:text-base">
-        {siderItems.map(({path, label, icon}: SiderItem) => {
+        {filteredItems.map(({path, label, icon}: SiderItem) => {
           const isActive = location.pathname === path;
           const itemClass = `flex items-center cursor-pointer transition-all duration-300 ${
             collapsed ? 'justify-center px-0 py-2.5' : 'px-7 py-3 justify-start'

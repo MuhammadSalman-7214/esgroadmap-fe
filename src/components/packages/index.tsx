@@ -19,7 +19,7 @@ const Packages: FunctionComponent = () => {
         amount: (Number(price.unit_price.amount) / 100).toFixed(2),
         currency: price.unit_price.currency_code,
         duration: `${price.billing_cycle.frequency} ${price.billing_cycle.interval}`,
-        features: ['Feature 1', 'Feature 2'],
+        features: price.custom_data ? Object.values(price.custom_data) : [],
       }));
 
       setPlans(parsedPlans);
@@ -33,7 +33,7 @@ const Packages: FunctionComponent = () => {
       {plans.map((pkg: Plan) => (
         <div
           key={pkg.id}
-          className="w-full sm:w-[48%] lg:w-[31%] flex flex-col gap-4 text-center whitebg"
+          className="w-full sm:w-[48%] flex flex-col gap-4 text-center whitebg"
         >
           <div className="textwhite py-3 px-4 text-xl md:text-2xl font-semibold themebg">
             <span>{pkg.title}</span>

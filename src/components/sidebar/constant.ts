@@ -1,4 +1,4 @@
-import {Recycle, Droplets, Users, Sun, Boxes} from 'lucide-react'; // use other icons if preferred
+import {Recycle, Droplets, Users, Sun, Boxes} from 'lucide-react';
 import {SiderItem} from './type';
 
 export const siderItems: SiderItem[] = [

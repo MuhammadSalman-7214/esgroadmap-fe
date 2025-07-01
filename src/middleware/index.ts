@@ -7,6 +7,7 @@ const api = axios.create({
 let isRefreshing = false;
 let failedRequestsQueue: any[] = [];
 function handleLogout() {
+  localStorage.clear();
   window.location.href = '/auth/login';
 }
 api.interceptors.response.use(

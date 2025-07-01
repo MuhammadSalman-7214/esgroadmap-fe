@@ -5,7 +5,10 @@ import api from '../../middleware';
 import Button from '../../components/ui/button';
 import {toast} from 'react-toastify';
 import {PackageProp, Plan} from './type';
-const CLIENT_SIDE_TOKEN = import.meta.env.CLIENT_SIDE_TOKEN;
+import {useNavigate} from 'react-router-dom';
+
+const CLIENT_SIDE_TOKEN = import.meta.env.VITE_CLIENT_SIDE_TOKEN;
+const FREE_PLAN_ID = import.meta.env.VITE_FREE_PLAN_ID;
 
 const Plans = () => {
   const [plans, setPlans] = useState<Plan[]>([]);
@@ -13,8 +16,7 @@ const Plans = () => {
   const [currentSubscriptionId, setCurrentSubscriptionId] = useState<
     string | null
   >(null);
-  console.log('🚀 ~ Plans ~ currentSubscriptionId:', currentSubscriptionId);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const getSubscription = async () => {
       try {
@@ -48,7 +50,7 @@ const Plans = () => {
         amount: (Number(price.unit_price.amount) / 100).toFixed(2),
         currency: price.unit_price.currency_code,
         duration: `${price.billing_cycle.frequency} ${price.billing_cycle.interval}`,
-        features: ['Feature 1', 'Feature 2'],
+        features: price.custom_data ? Object.values(price.custom_data) : [],
       }));
 
       setPlans(parsedPlans);
@@ -61,7 +63,7 @@ const Plans = () => {
     const init = async () => {
       await Paddle.initializePaddle({
         token: `${CLIENT_SIDE_TOKEN}`,
-        environment: 'sandbox',
+        environment: 'production',
         eventCallback: async (event: any) => {
           console.log('🚀 Paddle Event:', event);
 
@@ -87,10 +89,12 @@ const Plans = () => {
             }
 
             const payload = {
-              customerId: currentCustomerId,
+              customerId: event.data.customer?.id,
               planId: newPriceId,
               planName: selectedPlan.title,
+              isPaid: true,
             };
+            localStorage.setItem('customerId', event.data.customer?.id || '');
             localStorage.setItem('planId', newPriceId);
             localStorage.setItem('planName', selectedPlan.title);
             console.log('📦 Sending payload to update user:', payload);
@@ -111,15 +115,14 @@ const Plans = () => {
   }, [currentSubscriptionId, plans]);
 
   const openCheckout = (priceId: string) => {
-    console.log('🛒 Opening checkout with priceId:', priceId);
     const paddle = Paddle.getPaddleInstance('v1');
     if (!paddle) return console.error('Paddle not initialized');
 
     const checkoutOptions: any = {
-      items: [{price_id: priceId, quantity: 1}], // 🔥 FIXED
+      items: [{price_id: priceId, quantity: 1}],
       customer: {id: currentCustomerId},
       settings: {displayMode: 'overlay'},
-      existingSubscriptionId: currentSubscriptionId, // also OK here
+      existingSubscriptionId: currentSubscriptionId,
     };
 
     paddle.Checkout.open(checkoutOptions);
@@ -131,7 +134,7 @@ const Plans = () => {
         {plans.map((pkg: Plan) => (
           <div
             key={pkg.id}
-            className="w-full sm:w-[48%] lg:w-[31%] flex flex-col gap-4 text-center whitebg"
+            className="w-full sm:w-[48%] flex flex-col gap-4 text-center whitebg"
           >
             <div className="textwhite py-3 px-4 text-xl md:text-2xl font-semibold themebg">
               <span>{pkg.title}</span>
@@ -173,14 +176,44 @@ const Plans = () => {
               type="submit"
               label="Upgrade Plan"
               className="mt-5 themebg mx-auto"
-              onClick={() => openCheckout(pkg.id)}
+              onClick={async () => {
+                const isFreePlan = pkg.id === `${FREE_PLAN_ID}`;
+
+                // Downgrade to free from paid
+                if (isFreePlan && currentCustomerId) {
+                  try {
+                    const payload = {
+                      customerId: '',
+                      planId: pkg.id,
+                      planName: pkg.title,
+                      isPaid: false,
+                    };
+                    await api.put('/user/update', payload);
+                    localStorage.setItem('planId', pkg.id);
+                    localStorage.setItem('planName', pkg.title);
+                    localStorage.removeItem('customerId');
+                    toast.success('Successfully downgraded to free plan.');
+                    navigate('/account');
+                  } catch (error) {
+                    console.error('❌ Error updating to free plan:', error);
+                    toast.error('Failed to downgrade to free plan.');
+                  }
+                  return;
+                }
+
+                // Upgrade to paid from free (no customerId)
+                if (!currentCustomerId && !isFreePlan) {
+                  openCheckout(pkg.id);
+                  return;
+                }
+
+                // Normal upgrade for existing customer (switching paid plan)
+                if (currentCustomerId && !isFreePlan) {
+                  openCheckout(pkg.id);
+                  return;
+                }
+              }}
             />
-            {/* <button
-              className="mt-6 w-full py-2 border-0 rounded-full text-white bg-blue-500 hover:bg-blue-700"
-              onClick={() => openCheckout(pkg.priceId)} // assuming `plan.priceId` exists
-            >
-              Subscribe
-            </button> */}
           </div>
         ))}
       </div>

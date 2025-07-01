@@ -13,6 +13,7 @@ export type Price = {
     amount: string;
     currency_code: string;
   };
+  custom_data?: Record<string, string>;
 };
 
 export type Plan = {

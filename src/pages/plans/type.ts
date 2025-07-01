@@ -1,5 +1,3 @@
-// types.ts
-
 export type Price = {
   id: string;
   product_id: string;
@@ -13,6 +11,7 @@ export type Price = {
     amount: string;
     currency_code: string;
   };
+  custom_data?: Record<string, string>;
 };
 
 export type Plan = {

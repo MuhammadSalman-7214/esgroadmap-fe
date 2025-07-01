@@ -34,13 +34,6 @@ const Table = ({data}: TableProps) => {
                   <span className="break-words whitespace-normal text-center mx-auto w-full text-[10px] sm:text-sm">
                     {header}
                   </span>
-                  {tableHeaders.includes(header) && (
-                    <img
-                      src="/icons/filters.svg"
-                      alt="Filter icon"
-                      className="w-3 h-3 sm:w-4 sm:h-4"
-                    />
-                  )}
                 </div>
               </th>
             ))}

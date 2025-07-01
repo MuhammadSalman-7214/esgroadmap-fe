@@ -11,8 +11,10 @@ import {SignUpFormData, signUpSchema} from '../../../validations/schema/auth';
 import {isAuthenticated} from '../../../utils/auth';
 import * as Paddle from '@paddle/paddle-js';
 import api from '../../../middleware';
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const CLIENT_SIDE_TOKEN = import.meta.env.CLIENT_SIDE_TOKEN;
+const CLIENT_SIDE_TOKEN = import.meta.env.VITE_CLIENT_SIDE_TOKEN;
+const FREE_PLAN_ID = import.meta.env.VITE_FREE_PLAN_ID;
 
 const SignUpForm: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -24,8 +26,10 @@ const SignUpForm: FunctionComponent = () => {
     username: string;
     email: string;
     password: string;
-    planId: string;
-    planName: string;
+    isPaid: boolean;
+    planId?: string;
+    planName?: string;
+    customerId?: string;
   };
 
   const {
@@ -39,11 +43,9 @@ const SignUpForm: FunctionComponent = () => {
     const init = async () => {
       await Paddle.initializePaddle({
         token: `${CLIENT_SIDE_TOKEN}`,
-        environment: 'sandbox',
+        environment: 'production',
         eventCallback: async (event: any) => {
           if (event.name === 'checkout.completed') {
-            console.log('Checkout Event:', JSON.stringify(event, null, 2));
-
             const paddle = Paddle.getPaddleInstance('v1');
             paddle?.Checkout.close();
 
@@ -66,7 +68,7 @@ const SignUpForm: FunctionComponent = () => {
                   headers: {'Content-Type': 'application/json'},
                   body: JSON.stringify({
                     ...formDataRef.current,
-                    customerId: customerId,
+                    customerId,
                   }),
                 }
               );
@@ -116,7 +118,6 @@ const SignUpForm: FunctionComponent = () => {
     try {
       const findUserResponse = await api.post(
         `${API_BASE_URL}/api/v1/auth/findUser`,
-
         {email: data.email}
       );
 
@@ -130,12 +131,45 @@ const SignUpForm: FunctionComponent = () => {
         return;
       }
 
+      // If plan is free
+      if (data.planId === `${FREE_PLAN_ID}`) {
+        const payload: SignUpPayload = {
+          username: data.username,
+          email: data.email,
+          password: data.password,
+          planId: data.planId,
+          planName: data.planName,
+          isPaid: false,
+        };
+
+        const signupResponse = await fetch(
+          `${API_BASE_URL}/api/v1/auth/signup`,
+          {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(payload),
+          }
+        );
+
+        if (!signupResponse.ok) {
+          const errorData = await signupResponse.json();
+          toast.error(`Signup failed: ${errorData.error}`);
+          return;
+        }
+
+        toast.success('Signup successful! You can now log in.');
+        navigate('/auth/login');
+        return;
+      }
+
+      // Else store data and go to checkout
       formDataRef.current = {
         username: data.username,
         email: data.email,
         password: data.password,
         planId: data.planId,
         planName: data.planName,
+        isPaid: true,
       };
 
       openCheckout(data.planId);
