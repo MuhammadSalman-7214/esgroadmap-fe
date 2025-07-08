@@ -4,6 +4,7 @@ import {useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import {RootState} from './store';
 import Modal from './components/modal';
+// import {ToastContainer} from 'react-toastify';
 
 const App = () => {
   const navigate = useNavigate();
@@ -49,6 +50,7 @@ const App = () => {
 
   return (
     <>
+      {/* <ToastContainer /> */}
       <AppRoutes />
       <Modal isOpen={showModal} closeable={false}>
         <h2 className="text-xl font-semibold mb-4">Account Not Activated</h2>

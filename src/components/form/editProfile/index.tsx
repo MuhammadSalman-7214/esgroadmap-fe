@@ -94,7 +94,7 @@ const EditProfileForm: FunctionComponent = () => {
       <Button
         type="submit"
         label={isLoading ? 'Submitting...' : 'Submit'}
-        className="mt-5 w-full sm:w-auto buttonbg"
+        className="mt-5 w-full sm:w-auto buttonbg cursor-pointer"
         disabled={isLoading}
       />
     </form>

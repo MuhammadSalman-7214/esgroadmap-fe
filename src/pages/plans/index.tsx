@@ -63,7 +63,7 @@ const Plans = () => {
     const init = async () => {
       await Paddle.initializePaddle({
         token: `${CLIENT_SIDE_TOKEN}`,
-        environment: 'production',
+        environment: 'sandbox',
         eventCallback: async (event: any) => {
           console.log('🚀 Paddle Event:', event);
 
@@ -118,12 +118,19 @@ const Plans = () => {
     const paddle = Paddle.getPaddleInstance('v1');
     if (!paddle) return console.error('Paddle not initialized');
 
+    // Create base checkout options
     const checkoutOptions: any = {
       items: [{price_id: priceId, quantity: 1}],
-      customer: {id: currentCustomerId},
       settings: {displayMode: 'overlay'},
-      existingSubscriptionId: currentSubscriptionId,
     };
+
+    // Only include customer and existing subscription if customerId is available
+    if (currentCustomerId) {
+      checkoutOptions.customer = {id: currentCustomerId};
+      if (currentSubscriptionId) {
+        checkoutOptions.existingSubscriptionId = currentSubscriptionId;
+      }
+    }
 
     paddle.Checkout.open(checkoutOptions);
   };
@@ -175,8 +182,9 @@ const Plans = () => {
             <Button
               type="submit"
               label="Upgrade Plan"
-              className="mt-5 themebg mx-auto"
+              className="mt-5 themebg mx-auto cursor-pointer"
               onClick={async () => {
+                console.log('CLicked');
                 const isFreePlan = pkg.id === `${FREE_PLAN_ID}`;
 
                 // Downgrade to free from paid

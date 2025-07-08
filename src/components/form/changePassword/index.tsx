@@ -82,7 +82,7 @@ const ChangePasswordForm: FunctionComponent = () => {
       <Button
         type="submit"
         label={isLoading ? 'Saving...' : 'Save'}
-        className="mt-5 w-full sm:w-auto buttonbg"
+        className="mt-5 w-full sm:w-auto buttonbg cursor-pointer"
         disabled={isLoading}
       />
     </form>

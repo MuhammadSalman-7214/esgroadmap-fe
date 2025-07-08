@@ -1,6 +1,6 @@
 export interface AuthMessages {
   login: {
-    email: {
+    LoginFormData : {
       required: string;
       invalid: string;
     };

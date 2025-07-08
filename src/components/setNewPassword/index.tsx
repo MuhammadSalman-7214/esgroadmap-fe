@@ -43,7 +43,7 @@ const SetNewPassword: FunctionComponent<SetNewPasswordProps> = ({
         label={loading ? 'Saving...' : 'Set Password'}
         onClick={handleSetPassword}
         disabled={loading}
-        className="mt-4 w-full themebg"
+        className="mt-4 w-full themebg cursor-pointer"
       />
     </div>
   );

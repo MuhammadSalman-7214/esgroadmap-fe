@@ -2,9 +2,9 @@ import {z} from 'zod';
 import errors from '../../message';
 
 export const loginSchema = z.object({
-  email: z
-    .string({required_error: errors.auth.login.email.required})
-    .email(errors.auth.login.email.invalid),
+  identifier: z
+    .string({required_error: errors.auth.login.LoginFormData.required})
+    .min(3, errors.auth.login.LoginFormData.invalid),
   password: z
     .string({required_error: errors.auth.login.password.required})
     .min(6, errors.auth.login.password.minLength),

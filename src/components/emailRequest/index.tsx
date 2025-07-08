@@ -46,10 +46,10 @@ const EmailRequest: FunctionComponent<EmailRequestProps> = ({
         placeholder="Enter your email"
       />
       <Button
-        label={loading ? 'Sending...' : 'Send OTP'}
+        label={loading ? 'Sending...' : 'Send Password Reset Instruction'}
         onClick={handleSendEmail}
         disabled={loading}
-        className="mt-4 w-full themebg"
+        className="mt-4 w-full themebg cursor-pointer"
       />
     </div>
   );

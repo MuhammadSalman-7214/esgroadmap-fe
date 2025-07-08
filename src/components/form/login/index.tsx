@@ -40,10 +40,10 @@ const LoginForm: FunctionComponent = () => {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    const {email, password} = data;
+    const {identifier, password} = data;
     setIsLoading(true);
 
-    if (!email || !password) {
+    if (!identifier || !password) {
       toast.error('Please fill in all fields.');
       setIsLoading(false);
       return;
@@ -52,7 +52,7 @@ const LoginForm: FunctionComponent = () => {
     try {
       const response = await axios.post(
         `https://esgroadmap-be.vercel.app/api/v1/auth/signin`,
-        {email, password},
+        {identifier, password},
         {
           withCredentials: true,
         }
@@ -72,8 +72,12 @@ const LoginForm: FunctionComponent = () => {
           navigate('/dashboard');
         }
       }, 1000);
-    } catch (err) {
-      toast.error('An error occurred during sign-in.');
+    } catch (err: any) {
+      const errorMessage =
+        err?.response?.data?.message ||
+        err?.message ||
+        'An unknown error occurred during sign-in.';
+      toast.error(errorMessage);
       console.error('Sign-in error:', err);
     } finally {
       setIsLoading(false);
@@ -97,12 +101,12 @@ const LoginForm: FunctionComponent = () => {
       >
         <div className="flex flex-col space-y-4">
           <Input
-            id="email"
+            id="identifier"
             label="Username or Email Address"
             type="text"
-            placeholder="Enter your email"
-            {...register('email')}
-            errorMessage={errors.email?.message}
+            placeholder="Enter your username or email"
+            {...register('identifier')}
+            errorMessage={errors.identifier?.message}
             className="w-full"
           />
           <Input

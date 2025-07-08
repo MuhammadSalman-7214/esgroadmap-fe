@@ -2,8 +2,8 @@ import {AuthMessages} from './type';
 
 const authMessages: AuthMessages = {
   login: {
-    email: {
-      required: 'Email is required',
+    LoginFormData: {
+      required: 'Username or Email is required',
       invalid: 'Please enter a valid email address',
     },
     password: {

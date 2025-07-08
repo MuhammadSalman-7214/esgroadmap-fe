@@ -6,7 +6,7 @@ export const navItems: NavItem[] = [
     title: 'Sign up',
     link: '/auth/signup',
     isButton: false,
-    className: '',
+    className: 'cursor-pointer',
   },
   {
     id: 2,

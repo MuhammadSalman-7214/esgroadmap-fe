@@ -62,7 +62,7 @@ const OTPVerification: FunctionComponent<OTPVerificationProps> = ({
         label={loading ? 'Verifying...' : 'Verify OTP'}
         onClick={handleVerifyOTP}
         disabled={loading}
-        className="mt-4 w-full themebg"
+        className="mt-4 w-full themebg cursor-pointer"
       />
     </div>
   );

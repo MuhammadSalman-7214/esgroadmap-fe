@@ -43,7 +43,7 @@ const SignUpForm: FunctionComponent = () => {
     const init = async () => {
       await Paddle.initializePaddle({
         token: `${CLIENT_SIDE_TOKEN}`,
-        environment: 'production',
+        environment: 'sandbox',
         eventCallback: async (event: any) => {
           if (event.name === 'checkout.completed') {
             const paddle = Paddle.getPaddleInstance('v1');
@@ -75,7 +75,8 @@ const SignUpForm: FunctionComponent = () => {
 
               if (!signupResponse.ok) {
                 const errorData = await signupResponse.json();
-                toast.error(`Signup failed: ${errorData.error}`);
+                console.log('🚀 ~ eventCallback: ~ errorData:', errorData);
+                toast.error(`Signup failed: ${errorData.message}`);
                 return;
               }
 
@@ -153,7 +154,7 @@ const SignUpForm: FunctionComponent = () => {
 
         if (!signupResponse.ok) {
           const errorData = await signupResponse.json();
-          toast.error(`Signup failed: ${errorData.error}`);
+          toast.error(errorData.message);
           return;
         }
 
@@ -270,7 +271,7 @@ const SignUpForm: FunctionComponent = () => {
         <Button
           type="submit"
           label="Continue"
-          className="w-full sm:w-auto buttonbg"
+          className="w-full sm:w-auto buttonbg cursor-pointer"
           disabled={isLoading}
         />
       </div>
