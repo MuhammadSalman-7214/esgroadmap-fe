@@ -26,12 +26,12 @@ const CarbonReduction = () => {
   }, [currentPage, searchTerm]);
 
   const handleSaveSearch = async () => {
-    if (searchTerm) {
-      await api.post('/tool/search', {
-        search: searchTerm,
-        tableName: 'sentence_carbon',
-      });
-    }
+    // if (searchTerm) {
+    //   await api.post('/tool/search', {
+    //     search: searchTerm,
+    //     tableName: 'sentence_carbon',
+    //   });
+    // }
   };
   return (
     <DashboardLayout>

@@ -1,9 +1,9 @@
 import {useState} from 'react';
-import {tableHeaders} from '../../pages/carbonReduction/constant';
-import {TableProps} from './type';
+// import {tableHeaders} from '../../pages/carbonReduction/constant';
+// import {TableProps} from './type';
 import Modal from '../ui/modal';
 
-const Table = ({data}: TableProps) => {
+const Table = ({data, dataKey}: {data: any[]; dataKey: string}) => {
   const [isTargetSentenceOpen, setIsTargetSentenceOpen] = useState(false);
   const [selectedTargetSentence, setSelectedTargetSentence] = useState('');
 
@@ -14,18 +14,37 @@ const Table = ({data}: TableProps) => {
 
   if (!data || data.length === 0) {
     return (
-      <div className=" place-items-center my-10">
+      <div className="place-items-center my-10">
         <p>No data available</p>
       </div>
     );
   }
+
+  const truncate = (text: string | undefined, max = 15) =>
+    text ? (text.length > max ? `${text.slice(0, max)}...` : text) : '';
+
+  // Determine headers based on dataKey
+  const headers =
+    dataKey === 'companyUniverse'
+      ? ['Company', 'Country', 'Sector Code', 'Sector Name']
+      : [
+          'ID',
+          'Company',
+          'Document URL',
+          'Target Sentence',
+          'Target Year(s)',
+          'Country',
+          'Sector Code',
+          'Sector Name',
+          'Upload Date',
+        ];
 
   return (
     <>
       <table className="w-full table-auto border-collapse">
         <thead className="bannerbg text-xs sm:text-sm sticky top-0 z-10">
           <tr>
-            {tableHeaders.map((header: string, idx: number) => (
+            {headers.map((header: string, idx: number) => (
               <th
                 key={idx}
                 className="font-semibold tablebg textgray text-[10px] sm:text-sm min-w-[100px]"
@@ -41,49 +60,31 @@ const Table = ({data}: TableProps) => {
         </thead>
         <tbody>
           {data.map((row, index) => {
-            if (
-              !(
-                'id' in row &&
-                'Company' in row &&
-                'DocURL' in row &&
-                'Target_sentence' in row &&
-                'SentenceTargetYear' in row &&
-                'Country' in row &&
-                'SectorCode1' in row &&
-                'SectorName1' in row &&
-                'upload_date' in row
-              )
-            ) {
-              return null;
+            if (dataKey === 'companyUniverse') {
+              return (
+                <tr
+                  key={index}
+                  className={`${
+                    index % 2 === 0 ? 'whitebg' : 'bg-gray-50'
+                  } border bordergray text-xs sm:text-sm textgray`}
+                >
+                  <td className="px-2 sm:px-4 sm:py-4 md:py-4 py-2 text-center border bordergray break-words whitespace-normal">
+                    {row.Company}
+                  </td>
+                  <td className="px-2 sm:px-4 sm:py-4 md:py-4 py-2 text-center border bordergray break-words whitespace-normal">
+                    {row.Country || 'N/A'}
+                  </td>
+                  <td className="px-2 sm:px-4 sm:py-4 md:py-4 py-2 text-center border bordergray break-words whitespace-normal">
+                    {row.sector_code__1__NAICS_ || 'N/A'}
+                  </td>
+                  <td className="px-2 sm:px-4 sm:py-4 md:py-4 py-2 text-center border bordergray break-words whitespace-normal">
+                    {truncate(row.sector_name__1__NAICS_)}
+                  </td>
+                </tr>
+              );
             }
 
-            const rowValues = [
-              row.id,
-              row.Company,
-              <a href={row.DocURL} target="_blank" rel="noopener noreferrer">
-                <img
-                  src="/icons/share.svg"
-                  alt="Share"
-                  className="h-6 w-6 mx-auto"
-                />
-              </a>,
-              <div
-                onClick={() => handleTargetSentenceClick(row.Target_sentence)}
-                className="cursor-point"
-              >
-                {row.Target_sentence.length > 15
-                  ? `${row.Target_sentence.slice(0, 15)}...`
-                  : row.Target_sentence}
-              </div>,
-              row.SentenceTargetYear,
-              row.Country,
-              row.SectorCode1,
-              row.SectorName1.length > 15
-                ? `${row.SectorName1.slice(0, 15)}...`
-                : row.SectorName1,
-              row.upload_date,
-            ];
-
+            // Default rendering for other data types
             return (
               <tr
                 key={row.id}
@@ -91,14 +92,48 @@ const Table = ({data}: TableProps) => {
                   index % 2 === 0 ? 'whitebg' : 'bg-gray-50'
                 } border bordergray text-xs sm:text-sm textgray`}
               >
-                {rowValues.map((value, i) => (
-                  <td
-                    key={i}
-                    className="px-2 sm:px-4 sm:py-4 md:py-4 py-2 text-center border bordergray break-words whitespace-normal"
+                <td className="px-2 sm:px-4 sm:py-4 md:py-4 py-2 text-center border bordergray break-words whitespace-normal">
+                  {row.id}
+                </td>
+                <td className="px-2 sm:px-4 sm:py-4 md:py-4 py-2 text-center border bordergray break-words whitespace-normal">
+                  {row.Company}
+                </td>
+                <td className="px-2 sm:px-4 sm:py-4 md:py-4 py-2 text-center border bordergray break-words whitespace-normal">
+                  <a
+                    href={row.DocURL}
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    {value}
-                  </td>
-                ))}
+                    <img
+                      src="/icons/share.svg"
+                      alt="Share"
+                      className="h-6 w-6 mx-auto"
+                    />
+                  </a>
+                </td>
+                <td
+                  className="px-2 sm:px-4 sm:py-4 md:py-4 py-2 text-center border bordergray break-words whitespace-normal cursor-pointer"
+                  onClick={() =>
+                    handleTargetSentenceClick(row.Target_sentence ?? '')
+                  }
+                >
+                  {truncate(row.Target_sentence)}
+                </td>
+                <td className="px-2 sm:px-4 sm:py-4 md:py-4 py-2 text-center border bordergray break-words whitespace-normal">
+                  {row.SentenceTargetYear}
+                </td>
+                <td className="px-2 sm:px-4 sm:py-4 md:py-4 py-2 text-center border bordergray break-words whitespace-normal">
+                  {row.Country}
+                </td>
+                <td className="px-2 sm:px-4 sm:py-4 md:py-4 py-2 text-center border bordergray break-words whitespace-normal">
+                  {row.SectorCode1}
+                </td>
+                <td className="px-2 sm:px-4 sm:py-4 md:py-4 py-2 text-center border bordergray break-words whitespace-normal">
+                  {truncate(row.SectorName1)}
+                </td>
+                <td className="px-2 sm:px-4 sm:py-4 md:py-4 py-2 text-center border bordergray break-words whitespace-normal">
+                  {row.upload_date}
+                </td>
               </tr>
             );
           })}

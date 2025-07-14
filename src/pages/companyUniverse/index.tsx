@@ -2,47 +2,47 @@ import DashboardLayout from '../dashboardlayout';
 import TableWithOptions from '../../components/tableWithOptions';
 import ToolHeading from '../../components/toolHeading';
 import {useEffect, useState} from 'react';
-import {GenderDiversityDataType} from './type';
+import {CompanyUniverseDataType} from './type';
 import api from '../../middleware';
 
-const GenderDiversity = () => {
+const CompanyUniverse = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [genderDiversityData, setGenderDiversityData] =
-    useState<GenderDiversityDataType | null>(null);
+  const [companyUniverseData, setCompanyUniverseData] =
+    useState<CompanyUniverseDataType | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const fetchGenderDiversityData = async (
+  const fetchCompanyUniverseData = async (
     page: number,
     search: string = ''
   ) => {
     const res = await api.get(
-      `/tool/sentenceGender?page=${page}&limit=10&search=${encodeURIComponent(
+      `/tool/companyUniverse?page=${page}&limit=10&search=${encodeURIComponent(
         search
       )}`
     );
-    setGenderDiversityData(res.data);
+    setCompanyUniverseData(res.data);
   };
 
   useEffect(() => {
-    fetchGenderDiversityData(currentPage, searchTerm);
+    fetchCompanyUniverseData(currentPage, searchTerm);
   }, [currentPage, searchTerm]);
 
   const handleSaveSearch = async () => {
     // if (searchTerm) {
     //   await api.post('/tool/search', {
     //     search: searchTerm,
-    //     tableName: 'sentence_gender',
+    //     tableName: 'sentence_all',
     //   });
     // }
   };
 
   return (
     <DashboardLayout>
-      <ToolHeading title="Gender Diversity" />
-      {genderDiversityData && (
+      <ToolHeading title="Company Universe" />
+      {companyUniverseData && (
         <TableWithOptions
-          data={genderDiversityData}
-          dataKey="genderSentence"
+          data={companyUniverseData}
+          dataKey="companyUniverse"
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           searchTerm={searchTerm}
@@ -54,4 +54,4 @@ const GenderDiversity = () => {
   );
 };
 
-export default GenderDiversity;
+export default CompanyUniverse;

@@ -2,8 +2,8 @@ import TableHeader from '../tableHeader';
 import Table from '../table';
 import Pagination from '../pagination';
 import {TableWithOptionsProps} from './type';
-import {extractors} from './constants';
 import {SentenceType} from '../../types/data';
+import {CompanyUniverseDataType} from '../../pages/companyUniverse/type';
 
 const TableWithOptions = ({
   data,
@@ -14,37 +14,65 @@ const TableWithOptions = ({
   setSearchTerm,
   onSaveSearch,
 }: TableWithOptionsProps) => {
-  const extractor = extractors[dataKey] as (d: typeof data) => SentenceType[];
-  const sentenceData = extractor(data);
+  // Special handling for companyUniverse data structure
+  const getSentenceData = (): SentenceType[] => {
+    if (dataKey === 'companyUniverse') {
+      return (data as CompanyUniverseDataType).company_universe;
+    }
+
+    const possibleData = data[dataKey as keyof typeof data];
+
+    if (Array.isArray(possibleData)) {
+      return possibleData as SentenceType[];
+    }
+
+    console.warn(`Unexpected data type for key: ${dataKey}`);
+    return [];
+  };
+
+  const sentenceData = getSentenceData();
 
   const handleDownload = () => {
     const csvRows = [];
+    let headers: string[] = [];
+    let tableData: any[][] = [];
 
-    const headers = [
-      'ID',
-      'Company',
-      'Document URL',
-      'Target Sentence',
-      'Target Year(s)',
-      'Country',
-      'Sector Code #1',
-      'Sector Name #1',
-      'Upload Date',
-    ];
+    if (dataKey === 'companyUniverse') {
+      // Company Universe CSV format
+      headers = ['Company', 'Country', 'Sector Code', 'Sector Name'];
+      tableData = sentenceData.map((item: any) => [
+        item.Company ?? '',
+        item.Country ?? '',
+        item.sector_code__1__NAICS_ ?? '',
+        item.sector_name__1__NAICS_ ?? '',
+      ]);
+    } else {
+      // Default CSV format for other data types
+      headers = [
+        'ID',
+        'Company',
+        'Document URL',
+        'Target Sentence',
+        'Target Year(s)',
+        'Country',
+        'Sector Code #1',
+        'Sector Name #1',
+        'Upload Date',
+      ];
+      tableData = sentenceData.map((item: any) => [
+        item.id?.toString() ?? '',
+        item.Company ?? '',
+        item.DocURL ?? '',
+        item.Target_sentence?.replace(/"/g, '""') ?? '',
+        item.SentenceTargetYear ?? '',
+        item.Country ?? '',
+        item.SectorCode1 ?? '',
+        item.SectorName1 ?? '',
+        item.upload_date ?? '',
+      ]);
+    }
+
     csvRows.push(headers.join(','));
-
-    const tableData = sentenceData.map((item) => [
-      item.id?.toString() ?? '',
-      item.Company ?? '',
-      item.DocURL ?? '',
-      item.Target_sentence?.replace(/"/g, '""') ?? '',
-      item.SentenceTargetYear ?? '',
-      item.Country ?? '',
-      item.SectorCode1 ?? '',
-      item.SectorName1 ?? '',
-      item.upload_date ?? '',
-    ]);
-
     for (const row of tableData) {
       const formattedRow = row.map((field) => `"${field}"`).join(',');
       csvRows.push(formattedRow);
@@ -71,7 +99,7 @@ const TableWithOptions = ({
         onSaveSearch={onSaveSearch}
       />
       <div className="overflow-y-auto max-h-[calc(97vh-200px)]">
-        <Table data={sentenceData} />
+        <Table data={sentenceData} dataKey={dataKey} />
       </div>
       <Pagination
         totalPages={data.totalPages}

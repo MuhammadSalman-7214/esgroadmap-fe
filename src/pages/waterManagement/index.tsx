@@ -28,12 +28,12 @@ const WaterManagement = () => {
   }, [currentPage, searchTerm]);
 
   const handleSaveSearch = async () => {
-    if (searchTerm) {
-      await api.post('/tool/search', {
-        search: searchTerm,
-        tableName: 'sentence_water',
-      });
-    }
+    // if (searchTerm) {
+    //   await api.post('/tool/search', {
+    //     search: searchTerm,
+    //     tableName: 'sentence_water',
+    //   });
+    // }
   };
 
   return (

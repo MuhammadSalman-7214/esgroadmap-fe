@@ -21,8 +21,9 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
   const alwaysVisibleLabels = [
     'Dashboard',
     'Carbon Reduction',
+    'All Company Targets',
+    'Company Universe',
     'Account',
-    'Support Tickets',
     'FAQs',
   ];
 
@@ -95,7 +96,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
   };
 
   return (
-    <div className="sidebarbg min-h-full w-full font-customFont">
+    <div className="sidebarbg h-full flex flex-col w-full font-customFont">
       <div className="flex items-center justify-between mx-8 mt-9 mb-6 ">
         {!collapsed && <Logo />}
         <Button
@@ -106,7 +107,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
         />
       </div>
 
-      <div className="text-start text-lg md:text-base">
+      <div className="flex-1 overflow-y-auto text-start text-lg md:text-base">
         {filteredItems.map(({path, label, icon}: SiderItem) => {
           const isActive = location.pathname === path;
           const itemClass = `flex items-center cursor-pointer transition-all duration-300 ${

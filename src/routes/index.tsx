@@ -14,11 +14,17 @@ import SupplyChain from '../pages/supplyChain';
 import Renewables from '../pages/renewables';
 import Plans from '../pages/plans';
 import Faq from '../pages/faq';
+import AllCompanyTargets from '../pages/allCompanyTargets';
+import CompanyUniverse from '../pages/companyUniverse';
 
 export const routesConfig: RouteObject[] = [
   {
     path: '/dashboard',
     element: <Dashboard />,
+  },
+  {
+    path: '/all-company-targets',
+    element: <AllCompanyTargets />,
   },
   {
     path: '/carbon-reduction',
@@ -43,6 +49,10 @@ export const routesConfig: RouteObject[] = [
   {
     path: '/renewables',
     element: <Renewables />,
+  },
+  {
+    path: '/company-universe',
+    element: <CompanyUniverse />,
   },
   {
     path: '/auth/login',

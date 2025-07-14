@@ -25,12 +25,12 @@ const SupplyChain = () => {
   }, [currentPage, searchTerm]);
 
   const handleSaveSearch = async () => {
-    if (searchTerm) {
-      await api.post('/tool/search', {
-        search: searchTerm,
-        tableName: 'sentence_suppliers',
-      });
-    }
+    // if (searchTerm) {
+    //   await api.post('/tool/search', {
+    //     search: searchTerm,
+    //     tableName: 'sentence_suppliers',
+    //   });
+    // }
   };
 
   return (

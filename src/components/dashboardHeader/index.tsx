@@ -9,9 +9,9 @@ const DashboardHeader = () => {
                       lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:text-center"
       >
         <h5 className="text-base sm:text-xl md:text-2xl lg:text-3xl m-0">
-          Welcome to{' '}
+          {/* Welcome to{' '} */}
           <span className="themetext font-semibold whitespace-nowrap">
-            ESGroadmap User Portal
+            ESGRoadmap User Portal
           </span>
         </h5>
       </div>

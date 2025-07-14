@@ -28,12 +28,12 @@ const WasteAndRecycling = () => {
   }, [currentPage, searchTerm]);
 
   const handleSaveSearch = async () => {
-    if (searchTerm) {
-      await api.post('/tool/search', {
-        search: searchTerm,
-        tableName: 'sentence_waste',
-      });
-    }
+    // if (searchTerm) {
+    //   await api.post('/tool/search', {
+    //     search: searchTerm,
+    //     tableName: 'sentence_waste',
+    //   });
+    // }
   };
   return (
     <DashboardLayout>

@@ -25,12 +25,12 @@ const Renewables = () => {
   }, [currentPage, searchTerm]);
 
   const handleSaveSearch = async () => {
-    if (searchTerm) {
-      await api.post('/tool/search', {
-        search: searchTerm,
-        tableName: 'sentence_renewables',
-      });
-    }
+    // if (searchTerm) {
+    //   await api.post('/tool/search', {
+    //     search: searchTerm,
+    //     tableName: 'sentence_renewables',
+    //   });
+    // }
   };
 
   return (
