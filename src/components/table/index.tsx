@@ -1,6 +1,4 @@
 import {useState} from 'react';
-// import {tableHeaders} from '../../pages/carbonReduction/constant';
-// import {TableProps} from './type';
 import Modal from '../ui/modal';
 
 const Table = ({data, dataKey}: {data: any[]; dataKey: string}) => {
@@ -23,7 +21,6 @@ const Table = ({data, dataKey}: {data: any[]; dataKey: string}) => {
   const truncate = (text: string | undefined, max = 15) =>
     text ? (text.length > max ? `${text.slice(0, max)}...` : text) : '';
 
-  // Determine headers based on dataKey
   const headers =
     dataKey === 'companyUniverse'
       ? ['Company', 'Country', 'Sector Code', 'Sector Name']
@@ -47,9 +44,9 @@ const Table = ({data, dataKey}: {data: any[]; dataKey: string}) => {
             {headers.map((header: string, idx: number) => (
               <th
                 key={idx}
-                className="font-semibold tablebg textgray text-[10px] sm:text-sm min-w-[100px]"
+                className="font-semibold tablebg textgray text-[10px] sm:text-sm min-w-[100px] h-[56px] sm:h-[64px] align-middle"
               >
-                <div className="flex items-center gap-1 border bordergray px-1 py-2 sm:px-2 sm:py-3 justify-between sm:justify-center w-full cursor-pointer">
+                <div className="flex items-center h-full gap-1 border bordergray px-1 sm:px-2 justify-between sm:justify-center w-full cursor-pointer">
                   <span className="break-words whitespace-normal text-center mx-auto w-full text-[10px] sm:text-sm">
                     {header}
                   </span>

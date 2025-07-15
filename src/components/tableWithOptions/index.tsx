@@ -14,7 +14,6 @@ const TableWithOptions = ({
   setSearchTerm,
   onSaveSearch,
 }: TableWithOptionsProps) => {
-  // Special handling for companyUniverse data structure
   const getSentenceData = (): SentenceType[] => {
     if (dataKey === 'companyUniverse') {
       return (data as CompanyUniverseDataType).company_universe;
@@ -38,7 +37,6 @@ const TableWithOptions = ({
     let tableData: any[][] = [];
 
     if (dataKey === 'companyUniverse') {
-      // Company Universe CSV format
       headers = ['Company', 'Country', 'Sector Code', 'Sector Name'];
       tableData = sentenceData.map((item: any) => [
         item.Company ?? '',
@@ -47,7 +45,6 @@ const TableWithOptions = ({
         item.sector_name__1__NAICS_ ?? '',
       ]);
     } else {
-      // Default CSV format for other data types
       headers = [
         'ID',
         'Company',
