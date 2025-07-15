@@ -4,6 +4,7 @@ export interface DashboardItem {
   alt: string;
   name: string;
   todo: string;
+  link: string;
 }
 
 export interface DashboardSection {

@@ -1,11 +1,29 @@
+import {Link, useNavigate} from 'react-router-dom';
 import Button from '../ui/button';
 import {dashboardContent} from './constant';
 import {DashboardItem, DashboardProp} from './type';
+import {useEffect, useState} from 'react';
 
 const DashboardContent = () => {
+  const navigate = useNavigate();
+  const [customerId, setCustomerId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedId = localStorage.getItem('customerId');
+    setCustomerId(storedId);
+  }, []);
+
+  const filteredContent: Partial<DashboardProp> = {
+    basicAccountTools: dashboardContent.basicAccountTools,
+    ...(customerId && {
+      comprehensiveAccountTools: dashboardContent.comprehensiveAccountTools,
+      memberInformation: dashboardContent.memberInformation,
+    }),
+    myAccountDetail: dashboardContent.myAccountDetail,
+  };
   return (
     <div className="px-5 lg:w-11/12 md:w-11/12 w-full mb-8">
-      {Object.keys(dashboardContent).map((key) => {
+      {Object.keys(filteredContent).map((key) => {
         const section = dashboardContent[key as keyof DashboardProp];
 
         return (
@@ -29,9 +47,11 @@ const DashboardContent = () => {
                     <h3 className="text-sm md:text-base font-semibold textwhite text-center">
                       {item.name}
                     </h3>
+                    <Link to={item.link}></Link>
                     <Button
                       className="buttonbg2 textwhite text-md sm:text-xs  px-3 py-1 mt-2 mx-auto"
                       label={item.todo}
+                      onClick={() => navigate(item.link)}
                     />
                   </div>
                 </div>

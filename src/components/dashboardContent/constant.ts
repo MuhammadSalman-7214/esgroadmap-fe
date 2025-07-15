@@ -10,6 +10,7 @@ export const dashboardContent: DashboardProp = {
         alt: 'Carbon Reduction Targets',
         name: 'Carbon Reduction Targets',
         todo: 'Use Tool',
+        link: '/carbon-reduction',
       },
     ],
   },
@@ -23,6 +24,7 @@ export const dashboardContent: DashboardProp = {
         alt: 'All company targets',
         name: 'All company targets',
         todo: 'Use Tool',
+        link: '/all-company-targets',
       },
       {
         id: 2,
@@ -30,6 +32,7 @@ export const dashboardContent: DashboardProp = {
         alt: 'Waste & Recycling targets',
         name: 'Waste & Recycling targets',
         todo: 'Use Tool',
+        link: '/waste-and-recycling',
       },
       {
         id: 3,
@@ -37,6 +40,7 @@ export const dashboardContent: DashboardProp = {
         alt: 'Water management targets',
         name: 'Water management targets',
         todo: 'Use Tool',
+        link: '/water-management',
       },
       {
         id: 4,
@@ -44,6 +48,7 @@ export const dashboardContent: DashboardProp = {
         alt: 'Supply Chain targets',
         name: 'Supply Chain targets',
         todo: 'Use Tool',
+        link: '/supply-chain',
       },
       {
         id: 5,
@@ -51,6 +56,7 @@ export const dashboardContent: DashboardProp = {
         alt: 'Gender diversity targets',
         name: 'Gender diversity targets',
         todo: 'Use Tool',
+        link: '/gender-diversity',
       },
       {
         id: 6,
@@ -58,6 +64,15 @@ export const dashboardContent: DashboardProp = {
         alt: 'Renewables targets',
         name: 'Renewables targets',
         todo: 'Use Tool',
+        link: '/renewables',
+      },
+      {
+        id: 7,
+        src: 'https://esgroadmap.com/wp-content/uploads/2023/03/office.jpg',
+        alt: 'Company Universe targets',
+        name: 'Company Universe targets',
+        todo: 'Use Tool',
+        link: '/company-universe',
       },
     ],
   },
@@ -71,6 +86,15 @@ export const dashboardContent: DashboardProp = {
         alt: 'Faqs',
         name: 'Faqs',
         todo: 'View',
+        link: '/faqs',
+      },
+      {
+        id: 2,
+        src: 'https://esgroadmap.com/wp-content/uploads/2022/12/download-1.png',
+        alt: 'Your support tickets',
+        name: 'User tickets',
+        todo: 'Send ticket',
+        link: '/support-tickets',
       },
       // {
       //   id: 2,
@@ -91,6 +115,7 @@ export const dashboardContent: DashboardProp = {
         alt: 'My Account',
         name: 'My Account',
         todo: 'My Account',
+        link: '/account',
       },
       // {
       //   id: 2,
