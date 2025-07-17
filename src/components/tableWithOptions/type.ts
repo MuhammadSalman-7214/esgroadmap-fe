@@ -32,4 +32,7 @@ export interface TableWithOptionsProps {
   searchTerm: string;
   setSearchTerm: Dispatch<SetStateAction<string>>;
   onSaveSearch: () => void;
+  tableName: string;
+  selectedCountry: string;
+  setSelectedCountry: Dispatch<SetStateAction<string>>;
 }

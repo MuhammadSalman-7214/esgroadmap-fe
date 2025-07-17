@@ -1,5 +1,9 @@
-import {SentenceType} from '../../types/data';
+// import {SentenceType} from '../../types/data';
 
 export type TableProps = {
-  data: SentenceType[];
+  data: any[];
+  dataKey: string;
+  tableName: string;
+  selectedCountry: string;
+  setSelectedCountry: React.Dispatch<React.SetStateAction<string>>;
 };

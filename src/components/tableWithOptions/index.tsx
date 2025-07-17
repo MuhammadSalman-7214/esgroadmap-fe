@@ -4,6 +4,8 @@ import Pagination from '../pagination';
 import {TableWithOptionsProps} from './type';
 import {SentenceType} from '../../types/data';
 import {CompanyUniverseDataType} from '../../pages/companyUniverse/type';
+import api from '../../middleware';
+import {toast} from 'react-toastify';
 
 const TableWithOptions = ({
   data,
@@ -13,10 +15,13 @@ const TableWithOptions = ({
   searchTerm,
   setSearchTerm,
   onSaveSearch,
+  tableName,
+  selectedCountry,
+  setSelectedCountry,
 }: TableWithOptionsProps) => {
   const getSentenceData = (): SentenceType[] => {
     if (dataKey === 'companyUniverse') {
-      return (data as CompanyUniverseDataType).company_universe;
+      return (data as CompanyUniverseDataType).companyUniverse;
     }
 
     const possibleData = data[dataKey as keyof typeof data];
@@ -25,20 +30,19 @@ const TableWithOptions = ({
       return possibleData as SentenceType[];
     }
 
-    console.warn(`Unexpected data type for key: ${dataKey}`);
     return [];
   };
 
   const sentenceData = getSentenceData();
 
-  const handleDownload = () => {
+  const generateCsv = (dataArray: any[], key: string): string => {
     const csvRows = [];
     let headers: string[] = [];
     let tableData: any[][] = [];
 
-    if (dataKey === 'companyUniverse') {
+    if (key === 'companyUniverse') {
       headers = ['Company', 'Country', 'Sector Code', 'Sector Name'];
-      tableData = sentenceData.map((item: any) => [
+      tableData = dataArray.map((item: any) => [
         item.Company ?? '',
         item.Country ?? '',
         item.sector_code__1__NAICS_ ?? '',
@@ -56,7 +60,7 @@ const TableWithOptions = ({
         'Sector Name #1',
         'Upload Date',
       ];
-      tableData = sentenceData.map((item: any) => [
+      tableData = dataArray.map((item: any) => [
         item.id?.toString() ?? '',
         item.Company ?? '',
         item.DocURL ?? '',
@@ -75,7 +79,11 @@ const TableWithOptions = ({
       csvRows.push(formattedRow);
     }
 
-    const csvContent = csvRows.join('\n');
+    return csvRows.join('\n');
+  };
+
+  const handleDownload = () => {
+    const csvContent = generateCsv(sentenceData, dataKey);
     const blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
 
     const link = document.createElement('a');
@@ -87,16 +95,47 @@ const TableWithOptions = ({
     document.body.removeChild(link);
   };
 
+  const handleDownloadComplete = async () => {
+    try {
+      const res = await api.get(`/tool/${dataKey}?pagination=false`);
+
+      const completeData = res.data?.[dataKey] ?? [];
+      if (!Array.isArray(completeData) || completeData.length === 0) {
+        toast.warn('No data received for CSV export');
+        return;
+      }
+      const csvContent = generateCsv(completeData, dataKey);
+      const blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
+
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.href = url;
+      link.setAttribute('download', `${dataKey}_complete.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Failed to download complete data:', error);
+    }
+  };
+
   return (
     <div className="border-3 bordergray tablebg rounded-lg mx-3">
       <TableHeader
         search={searchTerm}
         setSearch={setSearchTerm}
         onDownload={handleDownload}
+        onDownloadComplete={handleDownloadComplete}
         onSaveSearch={onSaveSearch}
       />
       <div className="overflow-y-auto max-h-[calc(97vh-200px)]">
-        <Table data={sentenceData} dataKey={dataKey} />
+        <Table
+          data={sentenceData}
+          dataKey={dataKey}
+          tableName={tableName}
+          selectedCountry={selectedCountry}
+          setSelectedCountry={setSelectedCountry}
+        />
       </div>
       <Pagination
         totalPages={data.totalPages}

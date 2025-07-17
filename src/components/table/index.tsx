@@ -1,7 +1,9 @@
 import {useState} from 'react';
 import Modal from '../ui/modal';
+import CountryDropdown from '../countryDropdown';
+import {TableProps} from './type';
 
-const Table = ({data, dataKey}: {data: any[]; dataKey: string}) => {
+const Table = ({data, dataKey, tableName, setSelectedCountry}: TableProps) => {
   const [isTargetSentenceOpen, setIsTargetSentenceOpen] = useState(false);
   const [selectedTargetSentence, setSelectedTargetSentence] = useState('');
 
@@ -46,9 +48,19 @@ const Table = ({data, dataKey}: {data: any[]; dataKey: string}) => {
                 key={idx}
                 className="font-semibold tablebg textgray text-[10px] sm:text-sm min-w-[100px] h-[56px] sm:h-[64px] align-middle"
               >
-                <div className="flex items-center h-full gap-1 border bordergray px-1 sm:px-2 justify-between sm:justify-center w-full cursor-pointer">
-                  <span className="break-words whitespace-normal text-center mx-auto w-full text-[10px] sm:text-sm">
+                <div className="flex items-center h-full gap-1 border bordergray px-1 sm:px-2 justify-between sm:justify-center w-full">
+                  <span className="break-words whitespace-normal text-center mx-auto w-full text-[10px] sm:text-sm flex items-center justify-center gap-1">
                     {header}
+                    {header === 'Country' && (
+                      <div className="relative">
+                        <CountryDropdown
+                          onSelect={(country) => {
+                            setSelectedCountry(country);
+                          }}
+                          tableName={tableName}
+                        />
+                      </div>
+                    )}
                   </span>
                 </div>
               </th>
@@ -81,7 +93,6 @@ const Table = ({data, dataKey}: {data: any[]; dataKey: string}) => {
               );
             }
 
-            // Default rendering for other data types
             return (
               <tr
                 key={row.id}

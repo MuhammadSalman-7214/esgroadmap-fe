@@ -7,30 +7,36 @@ import api from '../../middleware';
 
 const SupplyChain = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [supplyChainData, setSupplyChainData] =
     useState<SupplyChainDataType | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const tableName = 'sentence_suppliers';
 
-  const fetchSupplyChainData = async (page: number, search: string = '') => {
+  const fetchSupplyChainData = async (
+    page: number,
+    search: string = '',
+    country: string = ''
+  ) => {
     const res = await api.get(
       `/tool/supplyChain?page=${page}&limit=10&search=${encodeURIComponent(
         search
-      )}`
+      )}&country=${encodeURIComponent(country)}`
     );
     setSupplyChainData(res.data);
   };
 
   useEffect(() => {
-    fetchSupplyChainData(currentPage, searchTerm);
-  }, [currentPage, searchTerm]);
+    fetchSupplyChainData(currentPage, searchTerm, selectedCountry);
+  }, [currentPage, searchTerm, selectedCountry]);
 
   const handleSaveSearch = async () => {
-    // if (searchTerm) {
-    //   await api.post('/tool/search', {
-    //     search: searchTerm,
-    //     tableName: 'sentence_suppliers',
-    //   });
-    // }
+    if (searchTerm) {
+      await api.post('/tool/search', {
+        search: searchTerm,
+        tableName: `${tableName}`,
+      });
+    }
   };
 
   return (
@@ -45,6 +51,9 @@ const SupplyChain = () => {
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           onSaveSearch={handleSaveSearch}
+          tableName={tableName}
+          selectedCountry={selectedCountry}
+          setSelectedCountry={setSelectedCountry}
         />
       )}
     </DashboardLayout>

@@ -7,30 +7,36 @@ import api from '../../middleware';
 
 const Renewables = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [renewablesData, setRenewablesData] =
     useState<RenewablesDataType | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const tableName = 'sentence_renewables';
 
-  const fetchRenewablesData = async (page: number, search: string = '') => {
+  const fetchRenewablesData = async (
+    page: number,
+    search: string = '',
+    country: string = ''
+  ) => {
     const res = await api.get(
-      `/tool/renewables?page=${page}&limit=10&search=${encodeURIComponent(
+      `/tool/renewablesSentence?page=${page}&limit=10&search=${encodeURIComponent(
         search
-      )}`
+      )}&country=${encodeURIComponent(country)}`
     );
     setRenewablesData(res.data);
   };
 
   useEffect(() => {
-    fetchRenewablesData(currentPage, searchTerm);
-  }, [currentPage, searchTerm]);
+    fetchRenewablesData(currentPage, searchTerm, selectedCountry);
+  }, [currentPage, searchTerm, selectedCountry]);
 
   const handleSaveSearch = async () => {
-    // if (searchTerm) {
-    //   await api.post('/tool/search', {
-    //     search: searchTerm,
-    //     tableName: 'sentence_renewables',
-    //   });
-    // }
+    if (searchTerm) {
+      await api.post('/tool/search', {
+        search: searchTerm,
+        tableName: `${tableName}`,
+      });
+    }
   };
 
   return (
@@ -45,6 +51,9 @@ const Renewables = () => {
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           onSaveSearch={handleSaveSearch}
+          tableName={tableName}
+          selectedCountry={selectedCountry}
+          setSelectedCountry={setSelectedCountry}
         />
       )}
     </DashboardLayout>

@@ -7,32 +7,35 @@ import api from '../../middleware';
 
 const CarbonReduction = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [carbonData, setCarbonData] = useState<CarbonReductionDataType | null>(
     null
   );
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const tableName = 'sentence_carbon';
 
-  const fetchCarbonData = async (page: number, search: string = '') => {
+  const fetchCarbonData = async (page: number, search: string = '', country: string = '') => {
     const res = await api.get(
-      `/tool/carbonReduction?page=${page}&limit=10&search=${encodeURIComponent(
+      `/tool/carbonSentence?page=${page}&limit=10&search=${encodeURIComponent(
         search
-      )}`
+      )}&country=${encodeURIComponent(country)}`
     );
     setCarbonData(res.data);
   };
 
   useEffect(() => {
-    fetchCarbonData(currentPage, searchTerm);
-  }, [currentPage, searchTerm]);
+    fetchCarbonData(currentPage, searchTerm, selectedCountry);
+  }, [currentPage, searchTerm, selectedCountry]);
 
   const handleSaveSearch = async () => {
-    // if (searchTerm) {
-    //   await api.post('/tool/search', {
-    //     search: searchTerm,
-    //     tableName: 'sentence_carbon',
-    //   });
-    // }
+    if (searchTerm) {
+      await api.post('/tool/search', {
+        search: searchTerm,
+        tableName: `${tableName}`,
+      });
+    }
   };
+  
   return (
     <DashboardLayout>
       <ToolHeading title="Carbon Reduction" />
@@ -45,6 +48,9 @@ const CarbonReduction = () => {
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           onSaveSearch={handleSaveSearch}
+          tableName={tableName}
+          selectedCountry={selectedCountry}
+          setSelectedCountry={setSelectedCountry}
         />
       )}
     </DashboardLayout>

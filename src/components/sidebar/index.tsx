@@ -21,7 +21,6 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
   const alwaysVisibleLabels = [
     'Dashboard',
     'Carbon Reduction',
-    'All Company Targets',
     'Company Universe',
     'Account',
     'FAQs',

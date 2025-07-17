@@ -7,33 +7,36 @@ import api from '../../middleware';
 
 const WasteAndRecycling = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [wasteAndRecyclingData, setWasteAndRecyclingData] =
     useState<WasteAndRecyclingDataType | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const tableName = 'sentence_waste';
 
   const fetchWasteAndRecyclingData = async (
     page: number,
-    search: string = ''
+    search: string = '',
+    country: string = ''
   ) => {
     const res = await api.get(
-      `/tool/wasteAndRecycling?page=${page}&limit=10&search=${encodeURIComponent(
+      `/tool/wasteSentence?page=${page}&limit=10&search=${encodeURIComponent(
         search
-      )}`
+      )}&country=${encodeURIComponent(country)}`
     );
     setWasteAndRecyclingData(res.data);
   };
 
   useEffect(() => {
-    fetchWasteAndRecyclingData(currentPage, searchTerm);
-  }, [currentPage, searchTerm]);
+    fetchWasteAndRecyclingData(currentPage, searchTerm, selectedCountry);
+  }, [currentPage, searchTerm, selectedCountry]);
 
   const handleSaveSearch = async () => {
-    // if (searchTerm) {
-    //   await api.post('/tool/search', {
-    //     search: searchTerm,
-    //     tableName: 'sentence_waste',
-    //   });
-    // }
+    if (searchTerm) {
+      await api.post('/tool/search', {
+        search: searchTerm,
+        tableName: `${tableName}`,
+      });
+    }
   };
   return (
     <DashboardLayout>
@@ -47,6 +50,9 @@ const WasteAndRecycling = () => {
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           onSaveSearch={handleSaveSearch}
+          tableName={tableName}
+          selectedCountry={selectedCountry}
+          setSelectedCountry={setSelectedCountry}
         />
       )}
     </DashboardLayout>

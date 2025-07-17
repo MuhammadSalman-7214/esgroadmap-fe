@@ -7,33 +7,36 @@ import api from '../../middleware';
 
 const GenderDiversity = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [genderDiversityData, setGenderDiversityData] =
     useState<GenderDiversityDataType | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const tableName = 'sentence_gender';
 
   const fetchGenderDiversityData = async (
     page: number,
-    search: string = ''
+    search: string = '',
+    country: string = ''
   ) => {
     const res = await api.get(
-      `/tool/sentenceGender?page=${page}&limit=10&search=${encodeURIComponent(
+      `/tool/genderSentence?page=${page}&limit=10&search=${encodeURIComponent(
         search
-      )}`
+      )}&country=${encodeURIComponent(country)}`
     );
     setGenderDiversityData(res.data);
   };
 
   useEffect(() => {
-    fetchGenderDiversityData(currentPage, searchTerm);
-  }, [currentPage, searchTerm]);
+    fetchGenderDiversityData(currentPage, searchTerm, selectedCountry);
+  }, [currentPage, searchTerm, selectedCountry]);
 
   const handleSaveSearch = async () => {
-    // if (searchTerm) {
-    //   await api.post('/tool/search', {
-    //     search: searchTerm,
-    //     tableName: 'sentence_gender',
-    //   });
-    // }
+    if (searchTerm) {
+      await api.post('/tool/search', {
+        search: searchTerm,
+        tableName: `${tableName}`,
+      });
+    }
   };
 
   return (
@@ -48,6 +51,9 @@ const GenderDiversity = () => {
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           onSaveSearch={handleSaveSearch}
+          tableName={tableName}
+          selectedCountry={selectedCountry}
+          setSelectedCountry={setSelectedCountry}
         />
       )}
     </DashboardLayout>
