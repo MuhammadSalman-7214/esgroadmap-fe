@@ -8,6 +8,9 @@ import api from '../../middleware';
 const Renewables = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedCountry, setSelectedCountry] = useState<string>('');
+  const [selectedCompany, setSelectedCompany] = useState<string>('');
+  const [selectedSector, setSelectedSector] = useState<string>('');
+  const [selectedYear, setSelectedYear] = useState<string>('');
   const [renewablesData, setRenewablesData] =
     useState<RenewablesDataType | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -16,19 +19,38 @@ const Renewables = () => {
   const fetchRenewablesData = async (
     page: number,
     search: string = '',
-    country: string = ''
+    country: string = '',
+    company: string = '',
+    sector: string = '',
+    year: string = ''
   ) => {
     const res = await api.get(
       `/tool/renewablesSentence?page=${page}&limit=10&search=${encodeURIComponent(
         search
-      )}&country=${encodeURIComponent(country)}`
+      )}&country=${encodeURIComponent(country)}&company=${encodeURIComponent(
+        company
+      )}&sector=${encodeURIComponent(sector)}&year=${encodeURIComponent(year)}`
     );
     setRenewablesData(res.data);
   };
 
   useEffect(() => {
-    fetchRenewablesData(currentPage, searchTerm, selectedCountry);
-  }, [currentPage, searchTerm, selectedCountry]);
+    fetchRenewablesData(
+      currentPage,
+      searchTerm,
+      selectedCountry,
+      selectedCompany,
+      selectedSector,
+      selectedYear
+    );
+  }, [
+    currentPage,
+    searchTerm,
+    selectedCountry,
+    selectedCompany,
+    selectedSector,
+    selectedYear,
+  ]);
 
   const handleSaveSearch = async () => {
     if (searchTerm) {
@@ -54,6 +76,12 @@ const Renewables = () => {
           tableName={tableName}
           selectedCountry={selectedCountry}
           setSelectedCountry={setSelectedCountry}
+          selectedCompany={selectedCompany}
+          setSelectedCompany={setSelectedCompany}
+          selectedSector={selectedSector}
+          setSelectedSector={setSelectedSector}
+          selectedYear={selectedYear}
+          setSelectedYear={setSelectedYear}
         />
       )}
     </DashboardLayout>

@@ -8,6 +8,9 @@ import api from '../../middleware';
 const GenderDiversity = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedCountry, setSelectedCountry] = useState<string>('');
+  const [selectedCompany, setSelectedCompany] = useState<string>('');
+  const [selectedSector, setSelectedSector] = useState<string>('');
+  const [selectedYear, setSelectedYear] = useState<string>('');
   const [genderDiversityData, setGenderDiversityData] =
     useState<GenderDiversityDataType | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -16,19 +19,38 @@ const GenderDiversity = () => {
   const fetchGenderDiversityData = async (
     page: number,
     search: string = '',
-    country: string = ''
+    country: string = '',
+    company: string = '',
+    sector: string = '',
+    year: string = ''
   ) => {
     const res = await api.get(
       `/tool/genderSentence?page=${page}&limit=10&search=${encodeURIComponent(
         search
-      )}&country=${encodeURIComponent(country)}`
+      )}&country=${encodeURIComponent(country)}&company=${encodeURIComponent(
+        company
+      )}&sector=${encodeURIComponent(sector)}&year=${encodeURIComponent(year)}`
     );
     setGenderDiversityData(res.data);
   };
 
   useEffect(() => {
-    fetchGenderDiversityData(currentPage, searchTerm, selectedCountry);
-  }, [currentPage, searchTerm, selectedCountry]);
+    fetchGenderDiversityData(
+      currentPage,
+      searchTerm,
+      selectedCountry,
+      selectedCompany,
+      selectedSector,
+      selectedYear
+    );
+  }, [
+    currentPage,
+    searchTerm,
+    selectedCountry,
+    selectedCompany,
+    selectedSector,
+    selectedYear,
+  ]);
 
   const handleSaveSearch = async () => {
     if (searchTerm) {
@@ -54,6 +76,12 @@ const GenderDiversity = () => {
           tableName={tableName}
           selectedCountry={selectedCountry}
           setSelectedCountry={setSelectedCountry}
+          selectedCompany={selectedCompany}
+          setSelectedCompany={setSelectedCompany}
+          selectedSector={selectedSector}
+          setSelectedSector={setSelectedSector}
+          selectedYear={selectedYear}
+          setSelectedYear={setSelectedYear}
         />
       )}
     </DashboardLayout>

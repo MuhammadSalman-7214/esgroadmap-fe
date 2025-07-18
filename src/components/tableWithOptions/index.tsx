@@ -18,7 +18,14 @@ const TableWithOptions = ({
   tableName,
   selectedCountry,
   setSelectedCountry,
+  selectedCompany,
+  setSelectedCompany,
+  selectedSector,
+  setSelectedSector,
+  selectedYear,
+  setSelectedYear,
 }: TableWithOptionsProps) => {
+
   const getSentenceData = (): SentenceType[] => {
     if (dataKey === 'companyUniverse') {
       return (data as CompanyUniverseDataType).companyUniverse;
@@ -135,6 +142,15 @@ const TableWithOptions = ({
           tableName={tableName}
           selectedCountry={selectedCountry}
           setSelectedCountry={setSelectedCountry}
+
+          selectedCompany={selectedCompany}
+          setSelectedCompany={setSelectedCompany}
+
+          selectedSector={selectedSector}
+          setSelectedSector={setSelectedSector}
+          
+          selectedYear={selectedYear}
+          setSelectedYear={setSelectedYear}
         />
       </div>
       <Pagination

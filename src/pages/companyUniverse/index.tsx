@@ -8,7 +8,9 @@ import api from '../../middleware';
 const CompanyUniverse = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedCountry, setSelectedCountry] = useState<string>('');
-
+const [selectedCompany, setSelectedCompany] = useState<string>('');
+const [selectedSector, setSelectedSector] = useState<string>('');
+const [selectedYear, setSelectedYear] = useState<string>('');
   const [companyUniverseData, setCompanyUniverseData] =
     useState<CompanyUniverseDataType | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -17,19 +19,38 @@ const CompanyUniverse = () => {
   const fetchCompanyUniverseData = async (
     page: number,
     search: string = '',
-    country: string = ''
+    country: string = '',
+    company: string = '',
+    sector: string = '',
+    year: string = ''
   ) => {
     const res = await api.get(
       `/tool/companyUniverse?page=${page}&limit=10&search=${encodeURIComponent(
         search
-      )}&country=${encodeURIComponent(country)}`
+      )}&country=${encodeURIComponent(country)}&company=${encodeURIComponent(
+        company
+      )}&sector=${encodeURIComponent(sector)}&year=${encodeURIComponent(year)}`
     );
     setCompanyUniverseData(res.data);
   };
 
   useEffect(() => {
-    fetchCompanyUniverseData(currentPage, searchTerm, selectedCountry);
-  }, [currentPage, searchTerm, selectedCountry]);
+    fetchCompanyUniverseData(
+      currentPage,
+      searchTerm,
+      selectedCountry,
+      selectedCompany,
+      selectedSector,
+      selectedYear
+    );
+  }, [
+    currentPage,
+    searchTerm,
+    selectedCountry,
+    selectedCompany,
+    selectedSector,
+    selectedYear,
+  ]);
 
   const handleSaveSearch = async () => {
     if (searchTerm) {
@@ -59,6 +80,12 @@ const CompanyUniverse = () => {
           tableName={tableName}
           selectedCountry={selectedCountry}
           setSelectedCountry={setSelectedCountry}
+          selectedCompany={selectedCompany}
+          setSelectedCompany={setSelectedCompany}
+          selectedSector={selectedSector}
+          setSelectedSector={setSelectedSector}
+          selectedYear={selectedYear}
+          setSelectedYear={setSelectedYear}
         />
       )}
     </DashboardLayout>

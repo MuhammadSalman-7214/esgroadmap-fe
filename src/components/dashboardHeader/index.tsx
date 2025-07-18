@@ -1,3 +1,5 @@
+import {UserRound} from 'lucide-react';
+
 const DashboardHeader = () => {
   return (
     <div className="whitebg px-4 sm:px-10 md:px-5 flex items-center justify-between h-16 sm:h-20 relative">
@@ -20,15 +22,12 @@ const DashboardHeader = () => {
         className="hidden md:flex gap-2 items-center 
                       md:ml-auto lg:ml-0 lg:absolute lg:right-10"
       >
-        <img
-          src={'/icons/user.svg'}
-          className="cursor-pointer h-5 w-5"
-          alt="userProfile"
-        />
         <p className="m-0 text-lg sm:text-md">
           {' '}
           {localStorage.getItem('username')}
         </p>
+
+        <UserRound className="pt-0.5 rounded-full border-2" />
       </div>
     </div>
   );
