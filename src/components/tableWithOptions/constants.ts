@@ -15,5 +15,5 @@ export const extractors = {
   genderSentence: (data: GenderDiversityDataType) => data.genderSentence,
   supplyChain: (data: SupplyChainDataType) => data.supplyChain,
   renewablesSentence: (data: RenewablesDataType) => data.renewablesSentence,
-  companyUniverse: (data: CompanyUniverseDataType) => data.company_universe,
+  companyUniverse: (data: CompanyUniverseDataType) => data.companyUniverse,
 } as const;
