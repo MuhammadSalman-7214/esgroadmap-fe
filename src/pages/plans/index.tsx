@@ -100,6 +100,15 @@ const Plans = () => {
             try {
               await api.put('/user/update', payload);
               toast.success('Subscription upgraded successfully!');
+
+              // Close the checkout modal
+              const paddle = Paddle.getPaddleInstance('v1');
+              if (paddle) {
+                paddle.Checkout.close();
+              }
+
+              // Navigate to account page
+              navigate('/account');
             } catch (error) {
               console.error('❌ API error during user update:', error);
               toast.error('Failed to update subscription');
@@ -110,7 +119,7 @@ const Plans = () => {
     };
 
     init();
-  }, [currentSubscriptionId, plans]);
+  }, [currentSubscriptionId, plans, navigate]); // Add navigate to dependencies
 
   const openCheckout = (priceId: string) => {
     const paddle = Paddle.getPaddleInstance('v1');
@@ -197,7 +206,7 @@ const Plans = () => {
                     await api.put('/user/update', payload);
                     localStorage.setItem('planId', pkg.id);
                     localStorage.setItem('planName', pkg.title);
-                    localStorage.removeItem('customerId');
+                    localStorage.setItem('customerId', '');
                     toast.success('Successfully downgraded to free plan.');
                     navigate('/account');
                   } catch (error) {
