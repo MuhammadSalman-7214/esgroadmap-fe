@@ -16,6 +16,8 @@ import OTPVerification from '../../otpVerification';
 import SetNewPassword from '../../setNewPassword';
 import {usePreviousLocation} from '../../../pages/previousLocation';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const LoginForm: FunctionComponent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -51,7 +53,7 @@ const LoginForm: FunctionComponent = () => {
 
     try {
       const response = await axios.post(
-        `https://esgroadmap-be.vercel.app/api/v1/auth/signin`,
+        `${API_BASE_URL}/api/v1/auth/signin`,
         {identifier, password},
         {
           withCredentials: true,
