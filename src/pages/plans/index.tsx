@@ -63,7 +63,7 @@ const Plans = () => {
     const init = async () => {
       await Paddle.initializePaddle({
         token: `${CLIENT_SIDE_TOKEN}`,
-        environment: 'production',
+        environment: 'sandbox',
         eventCallback: async (event: any) => {
           if (event.name === 'checkout.completed') {
             const items = event.data.items || [];
