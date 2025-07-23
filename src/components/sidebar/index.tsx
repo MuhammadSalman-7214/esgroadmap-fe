@@ -27,7 +27,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
   ];
 
   const filteredItems = siderItems.filter(
-    (item) => alwaysVisibleLabels.includes(item.label) || customerId
+    (item) => alwaysVisibleLabels.includes(item.label) && customerId
   );
 
   useEffect(() => {
