@@ -26,9 +26,12 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
     'FAQs',
   ];
 
-  const filteredItems = siderItems.filter(
-    (item) => alwaysVisibleLabels.includes(item.label) && customerId
-  );
+  const filteredItems = siderItems.filter((item) => {
+    if (customerId && customerId === 'null') {
+      return alwaysVisibleLabels.includes(item.label);
+    }
+    return true;
+  });
 
   useEffect(() => {
     if (location.pathname === '/') {

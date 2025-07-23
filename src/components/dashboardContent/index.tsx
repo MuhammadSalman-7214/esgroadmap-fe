@@ -10,17 +10,20 @@ const DashboardContent = () => {
 
   useEffect(() => {
     const storedId = localStorage.getItem('customerId');
-    setCustomerId(storedId);
+    setCustomerId(storedId ?? null);
   }, []);
+
+  const isValidCustomerId = customerId && customerId !== 'null';
 
   const filteredContent: Partial<DashboardProp> = {
     basicAccountTools: dashboardContent.basicAccountTools,
-    ...(customerId && {
+    ...(isValidCustomerId && {
       comprehensiveAccountTools: dashboardContent.comprehensiveAccountTools,
       memberInformation: dashboardContent.memberInformation,
     }),
     myAccountDetail: dashboardContent.myAccountDetail,
   };
+
   return (
     <div className="px-5 lg:w-11/12 md:w-11/12 w-full mb-8">
       {Object.keys(filteredContent).map((key) => {
