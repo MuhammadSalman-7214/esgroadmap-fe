@@ -18,6 +18,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const customerId = localStorage.getItem('customerId');
+  console.log('🚀 ~ customerId:', customerId);
   const alwaysVisibleLabels = [
     'Dashboard',
     'Carbon Reduction',
@@ -26,13 +27,12 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
     'FAQs',
   ];
 
-  const filteredItems = siderItems.filter((item) => {
-    if (customerId && customerId === 'null') {
-      return alwaysVisibleLabels.includes(item.label);
-    }
-    return true;
-  });
+  const isValidCustomerId = customerId && customerId !== 'null';
 
+  const filteredItems = siderItems.filter((item) => {
+    return isValidCustomerId || alwaysVisibleLabels.includes(item.label);
+  });
+  
   useEffect(() => {
     if (location.pathname === '/') {
       navigate('/dashboard');

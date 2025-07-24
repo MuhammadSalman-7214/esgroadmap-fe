@@ -4,6 +4,7 @@ import axios from 'axios';
 import {SetNewPasswordProps} from './type';
 import Input from '../ui/input';
 import Button from '../ui/button';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const SetNewPassword: FunctionComponent<SetNewPasswordProps> = ({
   email,
@@ -17,7 +18,7 @@ const SetNewPassword: FunctionComponent<SetNewPasswordProps> = ({
     try {
       setLoading(true);
       await axios.put(
-        'https://esgroadmap-backend.vercel.app/api/v1/user/forgotPassword',
+        `${API_BASE_URL}/api/v1/user/forgotPassword`,
         {email, newPassword}
       );
       toast.success('Password updated successfully!');

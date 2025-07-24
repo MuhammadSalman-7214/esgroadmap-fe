@@ -4,6 +4,7 @@ import axios from 'axios';
 import {OTPVerificationProps} from './type';
 import Input from '../ui/input';
 import Button from '../ui/button';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const OTPVerification: FunctionComponent<OTPVerificationProps> = ({
   email,
@@ -32,7 +33,7 @@ const OTPVerification: FunctionComponent<OTPVerificationProps> = ({
     try {
       setLoading(true);
       await axios.post(
-        'https://esgroadmap-backend.vercel.app/api/v1/user/verifyOtp',
+        `${API_BASE_URL}/api/v1/user/verifyOtp`,
         {email, otp}
       );
       toast.success('OTP verified');

@@ -10,6 +10,7 @@ import {
   editProfileSchema,
 } from '../../../validations/schema/auth';
 import api from '../../../middleware';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const EditProfileForm: FunctionComponent = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -43,7 +44,7 @@ const EditProfileForm: FunctionComponent = () => {
 
     try {
       const response = await api.put(
-        `https://esgroadmap-backend.vercel.app/api/v1/user/`,
+        `${API_BASE_URL}/api/v1/user/`,
         {username, email},
         {
           withCredentials: true,

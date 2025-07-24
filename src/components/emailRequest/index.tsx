@@ -5,6 +5,7 @@ import axios from 'axios';
 import Input from '../ui/input';
 import Button from '../ui/button';
 import {EmailRequestProps} from './type';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const EmailRequest: FunctionComponent<EmailRequestProps> = ({
   onSuccess,
@@ -18,7 +19,7 @@ const EmailRequest: FunctionComponent<EmailRequestProps> = ({
     try {
       setLoading(true);
       await axios.post(
-        'https://esgroadmap-backend.vercel.app/api/v1/user/generateOtp',
+        `${API_BASE_URL}/api/v1/user/generateOtp`,
         {
           email: userEmail,
         }

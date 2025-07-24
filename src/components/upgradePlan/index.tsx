@@ -19,7 +19,7 @@ const UpgradePlan: FunctionComponent = () => {
         <Button
           type="submit"
           label={'Upgrade'}
-          className="mt-5 w-full sm:w-auto buttonbg"
+          className="mt-5 w-full sm:w-auto buttonbg cursor-pointer"
         />
       </Link>
     </div>

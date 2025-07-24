@@ -10,6 +10,7 @@ import {
   changePasswordSchema,
 } from '../../../validations/schema/auth';
 import api from '../../../middleware';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const ChangePasswordForm: FunctionComponent = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +35,7 @@ const ChangePasswordForm: FunctionComponent = () => {
 
     try {
       await api.put(
-        `https://esgroadmap-backend.vercel.app/api/v1/user/editpassword`,
+        `${API_BASE_URL}/api/v1/user/editpassword`,
         {oldPassword, newPassword},
         {
           withCredentials: true,
