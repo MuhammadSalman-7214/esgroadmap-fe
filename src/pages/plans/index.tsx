@@ -9,6 +9,7 @@ import {useNavigate} from 'react-router-dom';
 
 const CLIENT_SIDE_TOKEN = import.meta.env.VITE_CLIENT_SIDE_TOKEN;
 const FREE_PLAN_ID = import.meta.env.VITE_FREE_PLAN_ID;
+const VITE_ENVIRONMENT = import.meta.env.VITE_ENVIRONMENT;
 
 const Plans = () => {
   const [plans, setPlans] = useState<Plan[]>([]);
@@ -63,7 +64,7 @@ const Plans = () => {
     const init = async () => {
       await Paddle.initializePaddle({
         token: `${CLIENT_SIDE_TOKEN}`,
-        environment: 'sandbox',
+        environment: VITE_ENVIRONMENT,
         eventCallback: async (event: any) => {
           if (event.name === 'checkout.completed') {
             const items = event.data.items || [];
@@ -95,7 +96,6 @@ const Plans = () => {
             localStorage.setItem('customerId', event.data.customer?.id || '');
             localStorage.setItem('planId', newPriceId);
             localStorage.setItem('planName', selectedPlan.title);
-            console.log('📦 Sending payload to update user:', payload);
 
             try {
               await api.put('/user/update', payload);
@@ -186,49 +186,50 @@ const Plans = () => {
                 </li>
               ))}
             </ul>
-            <Button
-              type="submit"
-              label="Upgrade Plan"
-              className="mt-5 themebg mx-auto cursor-pointer"
-              onClick={async () => {
-                console.log('CLicked');
-                const isFreePlan = pkg.id === `${FREE_PLAN_ID}`;
+            {pkg.id !== FREE_PLAN_ID && (
+              <Button
+                type="submit"
+                label="Upgrade Plan"
+                className="mt-5 themebg mx-auto cursor-pointer"
+                onClick={async () => {
+                  const isFreePlan = pkg.id === `${FREE_PLAN_ID}`;
 
-                // Downgrade to free from paid
-                if (isFreePlan && currentCustomerId) {
-                  try {
-                    const payload = {
-                      customerId: '',
-                      planId: pkg.id,
-                      planName: pkg.title,
-                      isPaid: false,
-                    };
-                    await api.put('/user/update', payload);
-                    localStorage.setItem('planId', pkg.id);
-                    localStorage.setItem('planName', pkg.title);
-                    localStorage.setItem('customerId', '');
-                    toast.success('Successfully downgraded to free plan.');
-                    navigate('/account');
-                  } catch (error) {
-                    console.error('❌ Error updating to free plan:', error);
-                    toast.error('Failed to downgrade to free plan.');
+                  // Downgrade to free from paid
+                  if (isFreePlan && currentCustomerId) {
+                    try {
+                      const payload = {
+                        customerId: '',
+                        planId: pkg.id,
+                        planName: pkg.title,
+                        isPaid: false,
+                      };
+                      await api.put('/user/update', payload);
+                      localStorage.setItem('planId', pkg.id);
+                      localStorage.setItem('planName', pkg.title);
+                      localStorage.setItem('customerId', '');
+                      toast.success('Successfully downgraded to free plan.');
+                      navigate('/account');
+                    } catch (error) {
+                      console.error('❌ Error updating to free plan:', error);
+                      toast.error('Failed to downgrade to free plan.');
+                    }
+                    return;
                   }
-                  return;
-                }
 
-                // Upgrade to paid from free (no customerId)
-                if (!currentCustomerId && !isFreePlan) {
-                  openCheckout(pkg.id);
-                  return;
-                }
+                  // Upgrade to paid from free (no customerId)
+                  if (!currentCustomerId && !isFreePlan) {
+                    openCheckout(pkg.id);
+                    return;
+                  }
 
-                // Normal upgrade for existing customer (switching paid plan)
-                if (currentCustomerId && !isFreePlan) {
-                  openCheckout(pkg.id);
-                  return;
-                }
-              }}
-            />
+                  // Normal upgrade for existing customer (switching paid plan)
+                  if (currentCustomerId && !isFreePlan) {
+                    openCheckout(pkg.id);
+                    return;
+                  }
+                }}
+              />
+            )}
           </div>
         ))}
       </div>

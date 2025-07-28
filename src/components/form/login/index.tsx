@@ -142,7 +142,7 @@ const LoginForm: FunctionComponent = () => {
             className="texterror border-t-2 bordergray mt-8 font-semibold text-start cursor-pointer hover:underline"
             onClick={openModal}
           >
-            Lost Password?
+            Forgot password?
           </p>
           <Modal isOpen={step !== 0} onClose={closeModal}>
             {step === 1 && (

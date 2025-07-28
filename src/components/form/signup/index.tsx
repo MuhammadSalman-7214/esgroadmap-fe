@@ -15,6 +15,7 @@ import api from '../../../middleware';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const CLIENT_SIDE_TOKEN = import.meta.env.VITE_CLIENT_SIDE_TOKEN;
 const FREE_PLAN_ID = import.meta.env.VITE_FREE_PLAN_ID;
+const VITE_ENVIRONMENT = import.meta.env.VITE_ENVIRONMENT;
 
 const SignUpForm: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ const SignUpForm: FunctionComponent = () => {
     const init = async () => {
       await Paddle.initializePaddle({
         token: `${CLIENT_SIDE_TOKEN}`,
-        environment: 'sandbox',
+        environment: VITE_ENVIRONMENT,
         eventCallback: async (event: any) => {
           if (event.name === 'checkout.completed') {
             const paddle = Paddle.getPaddleInstance('v1');

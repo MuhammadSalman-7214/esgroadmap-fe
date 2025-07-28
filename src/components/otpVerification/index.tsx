@@ -12,7 +12,7 @@ const OTPVerification: FunctionComponent<OTPVerificationProps> = ({
   onTimeout,
 }) => {
   const [otp, setOtp] = useState('');
-  const [timeLeft, setTimeLeft] = useState(60);
+  const [timeLeft, setTimeLeft] = useState(300);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const OTPVerification: FunctionComponent<OTPVerificationProps> = ({
         }
         return prev - 1;
       });
-    }, 1000);
+    }, 5000);
     return () => clearInterval(timer);
   }, []);
 

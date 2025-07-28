@@ -4,6 +4,7 @@ import ToolHeading from '../../components/toolHeading';
 import {useEffect, useState} from 'react';
 import {WaterManagementDataType} from './type';
 import api from '../../middleware';
+import {toast} from 'react-toastify';
 
 const WaterManagement = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -54,10 +55,19 @@ const WaterManagement = () => {
 
   const handleSaveSearch = async () => {
     if (searchTerm) {
-      await api.post('/tool/search', {
-        search: searchTerm,
-        tableName: `${tableName}`,
-      });
+      try {
+        const response = await api.post('/tool/search', {
+          search: searchTerm,
+          tableName: tableName,
+        });
+
+        toast.success(response.data.message);
+      } catch (error: any) {
+        const errorMessage =
+          error.response?.data || 'Something went wrong. Please try again.';
+
+        toast.error(errorMessage);
+      }
     }
   };
 

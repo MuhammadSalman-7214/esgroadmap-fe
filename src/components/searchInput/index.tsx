@@ -21,7 +21,7 @@ const SearchInput: FunctionComponent<SearchInputProps> = ({
       </div>
       <Button
         label="Save Search"
-        className="buttonbg1 textwhite text-md sm:text-xs  px-2 py-1"
+        className="buttonbg1 textwhite text-md sm:text-xs  px-2 py-1 cursor-pointer"
         onClick={onSaveSearch}
       />
     </div>

@@ -13,7 +13,7 @@ const DashboardHeader = () => {
         <h5 className="text-base sm:text-xl md:text-2xl lg:text-3xl m-0">
           {/* Welcome to{' '} */}
           <span className="themetext font-semibold whitespace-nowrap">
-            ESGRoadmap User Portal
+            ESGRoadmap Member Portal
           </span>
         </h5>
       </div>

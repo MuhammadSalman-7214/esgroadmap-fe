@@ -18,14 +18,11 @@ const EmailRequest: FunctionComponent<EmailRequestProps> = ({
     if (!userEmail) return toast.error('Email is required!');
     try {
       setLoading(true);
-      await axios.post(
-        `${API_BASE_URL}/api/v1/user/generateOtp`,
-        {
-          email: userEmail,
-        }
-      );
+      await axios.post(`${API_BASE_URL}/api/v1/user/generateOtp`, {
+        email: userEmail,
+      });
       setEmail(userEmail);
-      toast.success('OTP sent to your email');
+      toast.success('Password reset instructions have been sent to your email');
       setTimeout(() => {
         onSuccess();
       }, 1000);
