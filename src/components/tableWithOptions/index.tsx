@@ -24,6 +24,8 @@ const TableWithOptions = ({
   setSelectedSector,
   selectedYear,
   setSelectedYear,
+  selectedSectorName,
+  setSelectedSectorName,
 }: TableWithOptionsProps) => {
 
   const getSentenceData = (): SentenceType[] => {
@@ -142,15 +144,14 @@ const TableWithOptions = ({
           tableName={tableName}
           selectedCountry={selectedCountry}
           setSelectedCountry={setSelectedCountry}
-
           selectedCompany={selectedCompany}
           setSelectedCompany={setSelectedCompany}
-
           selectedSector={selectedSector}
           setSelectedSector={setSelectedSector}
-          
           selectedYear={selectedYear}
           setSelectedYear={setSelectedYear}
+          selectedSectorName={selectedSectorName}
+          setSelectedSectorName={setSelectedSectorName}
         />
       </div>
       <Pagination

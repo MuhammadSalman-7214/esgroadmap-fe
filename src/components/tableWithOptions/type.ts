@@ -41,4 +41,6 @@ export interface TableWithOptionsProps {
   setSelectedSector: Dispatch<SetStateAction<string>>;
   selectedYear: string;
   setSelectedYear: Dispatch<SetStateAction<string>>;
+  selectedSectorName: string;
+  setSelectedSectorName: Dispatch<SetStateAction<string>>;
 }

@@ -10,4 +10,6 @@ export type TableProps = {
   setSelectedSector: React.Dispatch<React.SetStateAction<string>>;
   selectedYear: string;
   setSelectedYear: React.Dispatch<React.SetStateAction<string>>;
+  selectedSectorName: string;
+  setSelectedSectorName: React.Dispatch<React.SetStateAction<string>>;
 };

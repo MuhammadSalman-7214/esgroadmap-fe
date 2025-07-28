@@ -12,12 +12,14 @@ const Table = ({
   setSelectedCompany,
   setSelectedSector,
   setSelectedYear,
+  setSelectedSectorName,
 }: TableProps) => {
   const [filters, setFilters] = useState({
     uniqueCountries: [],
     uniqueCompanies: [],
     targetYears: [],
     uniqueSector: [],
+    uniqueSectorNames: [],
   });
   const [isTargetSentenceOpen, setIsTargetSentenceOpen] = useState(false);
   const [selectedTargetSentence, setSelectedTargetSentence] = useState('');
@@ -93,6 +95,12 @@ const Table = ({
                       <FilterDropdown
                         items={filters.targetYears}
                         onSelect={setSelectedYear}
+                      />
+                    )}
+                    {header === 'Sector Name' && (
+                      <FilterDropdown
+                        items={filters.uniqueSectorNames}
+                        onSelect={setSelectedSectorName}
                       />
                     )}
                   </span>
