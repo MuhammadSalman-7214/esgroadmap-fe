@@ -12,6 +12,7 @@ const AllCompanyTargets = () => {
   const [selectedCompany, setSelectedCompany] = useState<string>('');
   const [selectedSector, setSelectedSector] = useState<string>('');
   const [selectedYear, setSelectedYear] = useState<string>('');
+  const [selectedSectorName, setSelectedSectorName] = useState<string>('');
   const [allCompanyTargetsData, setAllCompanyTargetsData] =
     useState<AllCompanyTargetsDataType | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -23,14 +24,17 @@ const AllCompanyTargets = () => {
     country: string = '',
     company: string = '',
     sector: string = '',
-    year: string = ''
+    year: string = '',
+    sectorName: string = '',
   ) => {
     const res = await api.get(
       `/tool/allSentence?page=${page}&limit=10&search=${encodeURIComponent(
         search
       )}&country=${encodeURIComponent(country)}&company=${encodeURIComponent(
         company
-      )}&sector=${encodeURIComponent(sector)}&year=${encodeURIComponent(year)}`
+      )}&sector=${encodeURIComponent(sector)}&year=${encodeURIComponent(
+        year
+      )}&sectorName=${encodeURIComponent(sectorName)}`
     );
     setAllCompanyTargetsData(res.data);
   };
@@ -42,7 +46,8 @@ const AllCompanyTargets = () => {
       selectedCountry,
       selectedCompany,
       selectedSector,
-      selectedYear
+      selectedYear,
+      selectedSectorName
     );
   }, [
     currentPage,
@@ -51,6 +56,7 @@ const AllCompanyTargets = () => {
     selectedCompany,
     selectedSector,
     selectedYear,
+    selectedSectorName
   ]);
 
   const handleSaveSearch = async () => {
@@ -92,6 +98,8 @@ const AllCompanyTargets = () => {
           setSelectedSector={setSelectedSector}
           selectedYear={selectedYear}
           setSelectedYear={setSelectedYear}
+          selectedSectorName={selectedSectorName}
+          setSelectedSectorName={setSelectedSectorName}
         />
       )}
     </DashboardLayout>

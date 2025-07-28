@@ -4,14 +4,15 @@ import ToolHeading from '../../components/toolHeading';
 import {useEffect, useState} from 'react';
 import {CompanyUniverseDataType} from './type';
 import api from '../../middleware';
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 
 const CompanyUniverse = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedCountry, setSelectedCountry] = useState<string>('');
-const [selectedCompany, setSelectedCompany] = useState<string>('');
-const [selectedSector, setSelectedSector] = useState<string>('');
-const [selectedYear, setSelectedYear] = useState<string>('');
+  const [selectedCompany, setSelectedCompany] = useState<string>('');
+  const [selectedSector, setSelectedSector] = useState<string>('');
+  const [selectedYear, setSelectedYear] = useState<string>('');
+  const [selectedSectorName, setSelectedSectorName] = useState<string>('');
   const [companyUniverseData, setCompanyUniverseData] =
     useState<CompanyUniverseDataType | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -23,14 +24,17 @@ const [selectedYear, setSelectedYear] = useState<string>('');
     country: string = '',
     company: string = '',
     sector: string = '',
-    year: string = ''
+    year: string = '',
+    sectorName: string = ''
   ) => {
     const res = await api.get(
       `/tool/companyUniverse?page=${page}&limit=10&search=${encodeURIComponent(
         search
       )}&country=${encodeURIComponent(country)}&company=${encodeURIComponent(
         company
-      )}&sector=${encodeURIComponent(sector)}&year=${encodeURIComponent(year)}`
+      )}&sector=${encodeURIComponent(sector)}&year=${encodeURIComponent(
+        year
+      )}&sectorName=${encodeURIComponent(sectorName)}`
     );
     setCompanyUniverseData(res.data);
   };
@@ -42,7 +46,8 @@ const [selectedYear, setSelectedYear] = useState<string>('');
       selectedCountry,
       selectedCompany,
       selectedSector,
-      selectedYear
+      selectedYear,
+      selectedSectorName,
     );
   }, [
     currentPage,
@@ -51,6 +56,7 @@ const [selectedYear, setSelectedYear] = useState<string>('');
     selectedCompany,
     selectedSector,
     selectedYear,
+    selectedSectorName,
   ]);
 
   const handleSaveSearch = async () => {
@@ -74,7 +80,7 @@ const [selectedYear, setSelectedYear] = useState<string>('');
   useEffect(() => {
     fetchCompanyUniverseData(currentPage, searchTerm, selectedCountry);
   }, [currentPage, searchTerm, selectedCountry]);
-  
+
   return (
     <DashboardLayout>
       <ToolHeading title="Company Universe" />
@@ -96,6 +102,8 @@ const [selectedYear, setSelectedYear] = useState<string>('');
           setSelectedSector={setSelectedSector}
           selectedYear={selectedYear}
           setSelectedYear={setSelectedYear}
+          selectedSectorName={selectedSectorName}
+          setSelectedSectorName={setSelectedSectorName}
         />
       )}
     </DashboardLayout>
