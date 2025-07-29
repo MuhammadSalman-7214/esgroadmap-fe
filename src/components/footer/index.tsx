@@ -32,7 +32,7 @@ const Footer = () => {
             CONNECT WITH US
           </h3>
           <a
-            href="https://www.linkedin.com"
+            href="https://www.linkedin.com/company/esgroadmap/about/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block themetext"
