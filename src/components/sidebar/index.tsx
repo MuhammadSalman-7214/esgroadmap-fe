@@ -63,7 +63,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({
     toast.success('Logout successful!');
     setTimeout(() => {
       navigate('/auth/login');
-    }, 1000);
+    }, 2000);
   };
 
   const toggleIcon = collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />;

@@ -101,13 +101,11 @@ const Plans = () => {
               await api.put('/user/update', payload);
               toast.success('Subscription upgraded successfully!');
 
-              // Close the checkout modal
               const paddle = Paddle.getPaddleInstance('v1');
               if (paddle) {
                 paddle.Checkout.close();
               }
 
-              // Navigate to account page
               navigate('/account');
             } catch (error) {
               console.error('❌ API error during user update:', error);
@@ -119,19 +117,17 @@ const Plans = () => {
     };
 
     init();
-  }, [currentSubscriptionId, plans, navigate]); // Add navigate to dependencies
+  }, [currentSubscriptionId, plans, navigate]);
 
   const openCheckout = (priceId: string) => {
     const paddle = Paddle.getPaddleInstance('v1');
     if (!paddle) return console.error('Paddle not initialized');
 
-    // Create base checkout options
     const checkoutOptions: any = {
       items: [{price_id: priceId, quantity: 1}],
       settings: {displayMode: 'overlay'},
     };
 
-    // Only include customer and existing subscription if customerId is available
     if (currentCustomerId) {
       checkoutOptions.customer = {id: currentCustomerId};
       if (currentSubscriptionId) {

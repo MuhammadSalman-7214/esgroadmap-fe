@@ -1,7 +1,6 @@
 import {useEffect, useState} from 'react';
 import {ChevronDown, ChevronUp} from 'lucide-react';
 
-// Type definition for FAQ items
 type FAQItem = {
   question: string;
   answer: string;

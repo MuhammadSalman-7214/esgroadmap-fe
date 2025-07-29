@@ -1,5 +1,3 @@
-// types.ts
-
 export type Price = {
   id: string;
   product_id: string;
@@ -28,7 +26,7 @@ export type Plan = {
 
 export type PackageProp = {
   product: {
-    data: any[]; // You can type this later if needed
+    data: any[];
     meta: any;
   };
   prices: {

@@ -120,14 +120,6 @@ const LoginForm: FunctionComponent = () => {
             errorMessage={errors.password?.message}
             className="w-full"
           />
-          {/* <div className="flex gap-2 items-center">
-          <Input
-            label="Remember Me"
-            id="terms"
-            type="checkbox"
-            className="w-auto"
-          />
-        </div> */}
         </div>
 
         <Button

@@ -133,7 +133,6 @@ const SignUpForm: FunctionComponent = () => {
         return;
       }
 
-      // If plan is free
       if (data.planId === `${FREE_PLAN_ID}`) {
         const payload: SignUpPayload = {
           username: data.username,
@@ -164,7 +163,6 @@ const SignUpForm: FunctionComponent = () => {
         return;
       }
 
-      // Else store data and go to checkout
       formDataRef.current = {
         username: data.username,
         email: data.email,

@@ -25,17 +25,14 @@ const OTPVerification: FunctionComponent<OTPVerificationProps> = ({
         }
         return prev - 1;
       });
-    }, 5000);
+    }, 1000);
     return () => clearInterval(timer);
   }, []);
 
   const handleVerifyOTP = async () => {
     try {
       setLoading(true);
-      await axios.post(
-        `${API_BASE_URL}/api/v1/user/verifyOtp`,
-        {email, otp}
-      );
+      await axios.post(`${API_BASE_URL}/api/v1/user/verifyOtp`, {email, otp});
       toast.success('OTP verified');
       onSuccess();
     } catch (err) {
@@ -48,7 +45,10 @@ const OTPVerification: FunctionComponent<OTPVerificationProps> = ({
   return (
     <div>
       <h2 className="text-base font-semibold mb-4">Enter OTP</h2>
-      <p className="mb-2 text-sm text-gray-500">Time left: {timeLeft}s</p>
+      <p className="mb-2 text-sm text-gray-500">
+        Time left: {String(Math.floor(timeLeft / 60)).padStart(2, '0')}:
+        {String(timeLeft % 60).padStart(2, '0')}
+      </p>
       <Input
         label="OTP"
         type="text"

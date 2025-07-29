@@ -96,13 +96,6 @@ export const dashboardContent: DashboardProp = {
         todo: 'Send ticket',
         link: '/support-tickets',
       },
-      // {
-      //   id: 2,
-      //   src: 'https://esgroadmap.com/wp-content/uploads/2023/08/Feedback_Icon.png',
-      //   alt: 'Feedback Form',
-      //   name: 'Feedback Form',
-      //   todo: 'View',
-      // },
     ],
   },
 
@@ -117,20 +110,6 @@ export const dashboardContent: DashboardProp = {
         todo: 'My Account',
         link: '/account',
       },
-      // {
-      //   id: 2,
-      //   src: 'https://esgroadmap.com/wp-content/uploads/2022/12/download-1.png',
-      //   alt: 'Your support tickets',
-      //   name: 'Your support tickets',
-      //   todo: 'All Tickets',
-      // },
-      // {
-      //   id: 3,
-      //   src: 'https://esgroadmap.com/wp-content/uploads/2022/12/download-1.png',
-      //   alt: 'Submit Support ticket',
-      //   name: 'Submit Support ticket',
-      //   todo: 'Submit Ticket',
-      // },
     ],
   },
 };
