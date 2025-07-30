@@ -12,6 +12,6 @@ export const navItems: NavItem[] = [
     id: 2,
     title: 'Contact Us',
     isButton: true,
-    link: '/',
+    link: 'https://esgroadmap.com/contact-us-2',
   },
 ];

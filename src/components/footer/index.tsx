@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
-import Input from '../ui/input';
-import Button from '../ui/button';
+// import Input from '../ui/input';
+// import Button from '../ui/button';
 import Logo1 from '../logo1';
 import {quickLinks} from './constant';
 import LinkedIn from '../linkedIn';
@@ -9,7 +9,7 @@ import {QuickLinkType} from './type';
 const Footer = () => {
   return (
     <footer className="pt-10 pb-5 px-4 md:px-10 footerbg">
-      <div className="max-w-screen-2xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+      <div className="max-w-screen-2xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-20 items-start">
         <div className="flex justify-center lg:justify-start">
           <Logo1 />
         </div>
@@ -41,11 +41,11 @@ const Footer = () => {
           </a>
         </div>
 
-        <div className="space-y-3">
+        {/* <div className="space-y-3">
           <Input placeholder="Name" />
           <Input placeholder="Your Email Address" />
           <Button label="Sign Up" className="buttonbg" />
-        </div>
+        </div> */}
       </div>
 
       <div className="mt-10 text-center text-xs themetext">

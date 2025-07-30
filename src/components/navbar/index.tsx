@@ -18,10 +18,16 @@ const Navbar = () => {
               return (
                 <li key={item.id} className="text-md">
                   {item.isButton ? (
-                    <Button
-                      label={item.title}
-                      className="buttonbg1 cursor-pointer"
-                    />
+                    <a
+                      href={item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Button
+                        label={item.title}
+                        className="buttonbg1 cursor-pointer"
+                      />
+                    </a>
                   ) : (
                     <Link to={item.link} className="themetext">
                       {item.title}
