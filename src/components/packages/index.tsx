@@ -75,6 +75,7 @@ const Packages: FunctionComponent = () => {
 
           <Link
             to="/auth/membership-account/membership-checkout"
+            className="cursor-default"
             state={{packageData: pkg}}
           >
             <Button

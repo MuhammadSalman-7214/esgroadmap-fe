@@ -52,7 +52,7 @@ const DashboardContent = () => {
                     </h3>
                     <Link to={item.link}></Link>
                     <Button
-                      className="buttonbg2 textwhite text-md sm:text-xs  px-3 py-1 mt-2 mx-auto"
+                      className="buttonbg2 textwhite text-md sm:text-xs  px-3 py-1 mt-2 mx-auto cursor-pointer"
                       label={item.todo}
                       onClick={() => navigate(item.link)}
                     />
