@@ -1,6 +1,5 @@
 import {FunctionComponent, useState} from 'react';
 import {toast} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import Input from '../ui/input';
 import Button from '../ui/button';

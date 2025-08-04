@@ -2,7 +2,7 @@ import {FunctionComponent, useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useNavigate} from 'react-router-dom';
-import {toast, ToastContainer} from 'react-toastify';
+import {toast} from 'react-toastify';
 import {useDispatch} from 'react-redux';
 import Input from '../../ui/input';
 import Button from '../../ui/button';
@@ -153,7 +153,6 @@ const LoginForm: FunctionComponent = () => {
           </Modal>
         </div>
       </form>
-      <ToastContainer />
     </>
   );
 };
