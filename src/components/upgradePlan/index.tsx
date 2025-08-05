@@ -2,6 +2,9 @@ import {FunctionComponent} from 'react';
 import Button from '../ui/button';
 import {Link} from 'react-router-dom';
 
+const FREE_PLAN_ID = import.meta.env.VITE_FREE_PLAN_ID;
+const CURRENT_PLAN_ID = localStorage.getItem('planId');
+
 const UpgradePlan: FunctionComponent = () => {
   return (
     <div className="w-full my-5 px-4 sm:px-6">
@@ -16,11 +19,16 @@ const UpgradePlan: FunctionComponent = () => {
       </div>
 
       <Link to="/plans">
-        <Button
-          type="submit"
-          label={'Upgrade'}
-          className="mt-5 w-full sm:w-auto buttonbg cursor-pointer"
-        />
+        {CURRENT_PLAN_ID === FREE_PLAN_ID ? (
+          <Button
+            type="submit"
+            label={'Upgrade'}
+            // label={`${
+            //   CURRENT_PLAN_ID === FREE_PLAN_ID ? 'Upgrade' : 'Downgrade'
+            // }`}
+            className="mt-5 w-full sm:w-auto buttonbg cursor-pointer"
+          />
+        ) : null}
       </Link>
     </div>
   );

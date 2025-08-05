@@ -13,6 +13,7 @@ const CarbonReduction = () => {
   const [selectedSector, setSelectedSector] = useState<string>('');
   const [selectedYear, setSelectedYear] = useState<string>('');
   const [selectedSectorName, setSelectedSectorName] = useState<string>('');
+  const [selectedDate, setSelectedDate] = useState<string>('');
   const [carbonData, setCarbonData] = useState<CarbonReductionDataType | null>(
     null
   );
@@ -26,7 +27,8 @@ const CarbonReduction = () => {
     company: string = '',
     sector: string = '',
     year: string = '',
-    sectorName: string = ''
+    sectorName: string = '',
+    date: string = ''
   ) => {
     const res = await api.get(
       `/tool/carbonSentence?page=${page}&limit=10&search=${encodeURIComponent(
@@ -35,7 +37,9 @@ const CarbonReduction = () => {
         company
       )}&sector=${encodeURIComponent(sector)}&year=${encodeURIComponent(
         year
-      )}&sectorName=${encodeURIComponent(sectorName)}
+      )}&sectorName=${encodeURIComponent(sectorName)}&date=${encodeURIComponent(
+        date
+      )}
       `
     );
     setCarbonData(res.data);
@@ -49,7 +53,8 @@ const CarbonReduction = () => {
       selectedCompany,
       selectedSector,
       selectedYear,
-      selectedSectorName
+      selectedSectorName,
+      selectedDate,
     );
   }, [
     currentPage,
@@ -59,6 +64,7 @@ const CarbonReduction = () => {
     selectedSector,
     selectedYear,
     selectedSectorName,
+    selectedDate,
   ]);
 
   const handleSaveSearch = async () => {
@@ -102,6 +108,8 @@ const CarbonReduction = () => {
           setSelectedYear={setSelectedYear}
           selectedSectorName={selectedSector}
           setSelectedSectorName={setSelectedSectorName}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
         />
       )}
     </DashboardLayout>

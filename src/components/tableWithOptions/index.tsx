@@ -26,8 +26,10 @@ const TableWithOptions = ({
   setSelectedYear,
   selectedSectorName,
   setSelectedSectorName,
+  selectedDate,
+  setSelectedDate,
 }: TableWithOptionsProps) => {
-
+  
   const getSentenceData = (): SentenceType[] => {
     if (dataKey === 'companyUniverse') {
       return (data as CompanyUniverseDataType).companyUniverse;
@@ -152,6 +154,8 @@ const TableWithOptions = ({
           setSelectedYear={setSelectedYear}
           selectedSectorName={selectedSectorName}
           setSelectedSectorName={setSelectedSectorName}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
         />
       </div>
       <Pagination

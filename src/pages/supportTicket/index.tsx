@@ -15,7 +15,7 @@ const SupportTicket = () => {
   return (
     <DashboardLayout>
       <div className="h-[10%]">
-        <ToolHeading title="Your Support Tickets" />
+        <ToolHeading title="Support" />
       </div>
       <div className="flex justify-center items-center h-[90%]">
         <div className="text-center">

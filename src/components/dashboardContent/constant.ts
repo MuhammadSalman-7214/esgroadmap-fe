@@ -91,10 +91,10 @@ export const dashboardContent: DashboardProp = {
       {
         id: 2,
         src: 'https://esgroadmap.com/wp-content/uploads/2022/12/download-1.png',
-        alt: 'Your support tickets',
+        alt: 'Support',
         name: 'User tickets',
         todo: 'Send ticket',
-        link: '/support-tickets',
+        link: '/support',
       },
     ],
   },

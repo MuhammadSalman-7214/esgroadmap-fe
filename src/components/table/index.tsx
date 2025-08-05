@@ -13,6 +13,7 @@ const Table = ({
   setSelectedSector,
   setSelectedYear,
   setSelectedSectorName,
+  setSelectedDate,
 }: TableProps) => {
   const [filters, setFilters] = useState({
     uniqueCountries: [],
@@ -20,6 +21,7 @@ const Table = ({
     targetYears: [],
     uniqueSector: [],
     uniqueSectorNames: [],
+    uniqueDates: [],
   });
   const [isTargetSentenceOpen, setIsTargetSentenceOpen] = useState(false);
   const [selectedTargetSentence, setSelectedTargetSentence] = useState('');
@@ -101,6 +103,12 @@ const Table = ({
                       <FilterDropdown
                         items={filters.uniqueSectorNames}
                         onSelect={setSelectedSectorName}
+                      />
+                    )}
+                    {header === 'Upload Date' && (
+                      <FilterDropdown
+                        items={filters.uniqueDates}
+                        onSelect={setSelectedDate}
                       />
                     )}
                   </span>

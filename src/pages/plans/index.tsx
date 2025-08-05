@@ -10,6 +10,7 @@ import {useNavigate} from 'react-router-dom';
 const CLIENT_SIDE_TOKEN = import.meta.env.VITE_CLIENT_SIDE_TOKEN;
 const FREE_PLAN_ID = import.meta.env.VITE_FREE_PLAN_ID;
 const VITE_ENVIRONMENT = import.meta.env.VITE_ENVIRONMENT;
+const CURRENT_PLAN_ID = localStorage.getItem('planId');
 
 const Plans = () => {
   const [plans, setPlans] = useState<Plan[]>([]);
@@ -182,7 +183,7 @@ const Plans = () => {
                 </li>
               ))}
             </ul>
-            {pkg.id !== FREE_PLAN_ID && (
+            {pkg.id !== CURRENT_PLAN_ID && (
               <Button
                 type="submit"
                 label="Upgrade Plan"

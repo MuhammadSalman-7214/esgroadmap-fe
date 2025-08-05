@@ -67,7 +67,7 @@ export const routesConfig: RouteObject[] = [
     element: <Checkout />,
   },
   {
-    path: '/support-tickets',
+    path: '/support',
     element: <SupportTicket />,
   },
   {

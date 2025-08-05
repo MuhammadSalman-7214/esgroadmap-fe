@@ -29,10 +29,10 @@ const FilterDropdown = ({items, onSelect}: FilterDropdownProps) => {
       </div>
 
       {isOpen && (
-        <div className="absolute z-20 py-1 bg-white border border-gray-300 mt-1 w-40 rounded shadow-md max-h-60 overflow-auto">
+        <div className="absolute right-0 z-20 py-1 bg-white border border-gray-300 mt-1 w-40 rounded shadow-md max-h-60 overflow-auto">
           {items.length > 0 ? (
             <>
-            <div
+              <div
                 className="px-3 py-2 text-sm hover:bg-gray-100 cursor-pointer text-gray-500"
                 onClick={() => {
                   onSelect('');
@@ -41,19 +41,19 @@ const FilterDropdown = ({items, onSelect}: FilterDropdownProps) => {
               >
                 Clear filter
               </div>
-            {items.map((item, idx) => (
-              <div
-                key={idx}
-                className="px-3 py-2 text-sm hover:bg-gray-100 cursor-pointer"
-                onClick={() => {
-                  onSelect(item);
-                  setIsOpen(false);
-                }}
-              >
-                {item || 'N/A'}
-              </div>
+              {items.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="px-3 py-2 text-sm hover:bg-gray-100 cursor-pointer"
+                  onClick={() => {
+                    onSelect(item);
+                    setIsOpen(false);
+                  }}
+                >
+                  {item || 'N/A'}
+                </div>
               ))}
-              </>
+            </>
           ) : (
             <div className="px-3 py-2 text-sm text-gray-500">No options</div>
           )}
