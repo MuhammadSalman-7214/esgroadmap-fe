@@ -13,6 +13,7 @@ const SupplyChain = () => {
   const [selectedSector, setSelectedSector] = useState<string>('');
   const [selectedYear, setSelectedYear] = useState<string>('');
   const [selectedSectorName, setSelectedSectorName] = useState<string>('');
+  const [selectedDate, setSelectedDate] = useState<string>('');
   const [supplyChainData, setSupplyChainData] =
     useState<SupplyChainDataType | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -26,6 +27,7 @@ const SupplyChain = () => {
     sector: string = '',
     year: string = '',
     sectorName: string = '',
+    date: string = ''
   ) => {
     const res = await api.get(
       `/tool/supplyChain?page=${page}&limit=10&search=${encodeURIComponent(
@@ -34,7 +36,9 @@ const SupplyChain = () => {
         company
       )}&sector=${encodeURIComponent(sector)}&year=${encodeURIComponent(
         year
-      )}&sectorName=${encodeURIComponent(sectorName)}`
+      )}&sectorName=${encodeURIComponent(sectorName)}&date=${encodeURIComponent(
+        date
+      )}`
     );
     setSupplyChainData(res.data);
   };
@@ -48,6 +52,7 @@ const SupplyChain = () => {
       selectedSector,
       selectedYear,
       selectedSectorName,
+      selectedDate
     );
   }, [
     currentPage,
@@ -57,6 +62,7 @@ const SupplyChain = () => {
     selectedSector,
     selectedYear,
     selectedSectorName,
+    selectedDate,
   ]);
 
   const handleSaveSearch = async () => {
@@ -100,6 +106,8 @@ const SupplyChain = () => {
           setSelectedYear={setSelectedYear}
           selectedSectorName={selectedSectorName}
           setSelectedSectorName={setSelectedSectorName}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
         />
       )}
     </DashboardLayout>

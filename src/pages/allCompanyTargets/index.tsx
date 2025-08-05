@@ -4,7 +4,7 @@ import ToolHeading from '../../components/toolHeading';
 import {useEffect, useState} from 'react';
 import {AllCompanyTargetsDataType} from './type';
 import api from '../../middleware';
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 
 const AllCompanyTargets = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -13,6 +13,7 @@ const AllCompanyTargets = () => {
   const [selectedSector, setSelectedSector] = useState<string>('');
   const [selectedYear, setSelectedYear] = useState<string>('');
   const [selectedSectorName, setSelectedSectorName] = useState<string>('');
+  const [selectedDate, setSelectedDate] = useState<string>('');
   const [allCompanyTargetsData, setAllCompanyTargetsData] =
     useState<AllCompanyTargetsDataType | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -26,6 +27,7 @@ const AllCompanyTargets = () => {
     sector: string = '',
     year: string = '',
     sectorName: string = '',
+    date: string = ''
   ) => {
     const res = await api.get(
       `/tool/allSentence?page=${page}&limit=10&search=${encodeURIComponent(
@@ -34,7 +36,9 @@ const AllCompanyTargets = () => {
         company
       )}&sector=${encodeURIComponent(sector)}&year=${encodeURIComponent(
         year
-      )}&sectorName=${encodeURIComponent(sectorName)}`
+      )}&sectorName=${encodeURIComponent(sectorName)}&date=${encodeURIComponent(
+        date
+      )}`
     );
     setAllCompanyTargetsData(res.data);
   };
@@ -47,7 +51,8 @@ const AllCompanyTargets = () => {
       selectedCompany,
       selectedSector,
       selectedYear,
-      selectedSectorName
+      selectedSectorName,
+      selectedDate
     );
   }, [
     currentPage,
@@ -56,7 +61,8 @@ const AllCompanyTargets = () => {
     selectedCompany,
     selectedSector,
     selectedYear,
-    selectedSectorName
+    selectedSectorName,
+    selectedDate,
   ]);
 
   const handleSaveSearch = async () => {
@@ -100,6 +106,8 @@ const AllCompanyTargets = () => {
           setSelectedYear={setSelectedYear}
           selectedSectorName={selectedSectorName}
           setSelectedSectorName={setSelectedSectorName}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
         />
       )}
     </DashboardLayout>

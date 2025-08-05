@@ -13,6 +13,7 @@ const CompanyUniverse = () => {
   const [selectedSector, setSelectedSector] = useState<string>('');
   const [selectedYear, setSelectedYear] = useState<string>('');
   const [selectedSectorName, setSelectedSectorName] = useState<string>('');
+  const [selectedDate, setSelectedDate] = useState<string>('');
   const [companyUniverseData, setCompanyUniverseData] =
     useState<CompanyUniverseDataType | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -25,7 +26,8 @@ const CompanyUniverse = () => {
     company: string = '',
     sector: string = '',
     year: string = '',
-    sectorName: string = ''
+    sectorName: string = '',
+    date: string = ''
   ) => {
     const res = await api.get(
       `/tool/companyUniverse?page=${page}&limit=10&search=${encodeURIComponent(
@@ -34,7 +36,9 @@ const CompanyUniverse = () => {
         company
       )}&sector=${encodeURIComponent(sector)}&year=${encodeURIComponent(
         year
-      )}&sectorName=${encodeURIComponent(sectorName)}`
+      )}&sectorName=${encodeURIComponent(sectorName)}&date=${encodeURIComponent(
+        date
+      )}`
     );
     setCompanyUniverseData(res.data);
   };
@@ -48,6 +52,7 @@ const CompanyUniverse = () => {
       selectedSector,
       selectedYear,
       selectedSectorName,
+      selectedDate
     );
   }, [
     currentPage,
@@ -57,6 +62,7 @@ const CompanyUniverse = () => {
     selectedSector,
     selectedYear,
     selectedSectorName,
+    selectedDate,
   ]);
 
   const handleSaveSearch = async () => {
@@ -104,6 +110,8 @@ const CompanyUniverse = () => {
           setSelectedYear={setSelectedYear}
           selectedSectorName={selectedSectorName}
           setSelectedSectorName={setSelectedSectorName}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
         />
       )}
     </DashboardLayout>

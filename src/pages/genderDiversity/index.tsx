@@ -4,7 +4,7 @@ import ToolHeading from '../../components/toolHeading';
 import {useEffect, useState} from 'react';
 import {GenderDiversityDataType} from './type';
 import api from '../../middleware';
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 
 const GenderDiversity = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -13,6 +13,7 @@ const GenderDiversity = () => {
   const [selectedSector, setSelectedSector] = useState<string>('');
   const [selectedYear, setSelectedYear] = useState<string>('');
   const [selectedSectorName, setSelectedSectorName] = useState<string>('');
+  const [selectedDate, setSelectedDate] = useState<string>('');
   const [genderDiversityData, setGenderDiversityData] =
     useState<GenderDiversityDataType | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -26,6 +27,7 @@ const GenderDiversity = () => {
     sector: string = '',
     year: string = '',
     sectorName: string = '',
+    date: string = ''
   ) => {
     const res = await api.get(
       `/tool/genderSentence?page=${page}&limit=10&search=${encodeURIComponent(
@@ -34,7 +36,9 @@ const GenderDiversity = () => {
         company
       )}&sector=${encodeURIComponent(sector)}&year=${encodeURIComponent(
         year
-      )}&sectorName=${encodeURIComponent(sectorName)}`
+      )}&sectorName=${encodeURIComponent(sectorName)}&date=${encodeURIComponent(
+        date
+      )}`
     );
     setGenderDiversityData(res.data);
   };
@@ -48,6 +52,7 @@ const GenderDiversity = () => {
       selectedSector,
       selectedYear,
       selectedSectorName,
+      selectedDate
     );
   }, [
     currentPage,
@@ -57,6 +62,7 @@ const GenderDiversity = () => {
     selectedSector,
     selectedYear,
     selectedSectorName,
+    selectedDate,
   ]);
 
   const handleSaveSearch = async () => {
@@ -100,6 +106,8 @@ const GenderDiversity = () => {
           setSelectedYear={setSelectedYear}
           selectedSectorName={selectedSectorName}
           setSelectedSectorName={setSelectedSectorName}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
         />
       )}
     </DashboardLayout>
