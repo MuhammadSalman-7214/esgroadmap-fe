@@ -109,6 +109,7 @@ const Table = ({
                       <FilterDropdown
                         items={filters.uniqueDates}
                         onSelect={setSelectedDate}
+                        isDate={true}
                       />
                     )}
                   </span>

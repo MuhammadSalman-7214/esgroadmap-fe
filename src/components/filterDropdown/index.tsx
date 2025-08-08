@@ -2,7 +2,11 @@ import {useEffect, useRef, useState} from 'react';
 import {Filter} from 'lucide-react';
 import {FilterDropdownProps} from './type';
 
-const FilterDropdown = ({items, onSelect}: FilterDropdownProps) => {
+const FilterDropdown = ({
+  items,
+  onSelect,
+  isDate = false,
+}: FilterDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -18,6 +22,25 @@ const FilterDropdown = ({items, onSelect}: FilterDropdownProps) => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  const formatDateForDisplay = (dateString: string) => {
+    if (!dateString) return 'N/A';
+
+    let d = new Date(dateString);
+    if (isNaN(d.getTime())) {
+      const parts = dateString.split(/[-/ ]/);
+      if (parts.length >= 3 && parts[2].length === 4) {
+        d = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+      }
+    }
+    if (isNaN(d.getTime())) return dateString;
+
+    return d.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
+  };
 
   return (
     <div className="relative cursor-pointer" ref={dropdownRef}>
@@ -50,7 +73,7 @@ const FilterDropdown = ({items, onSelect}: FilterDropdownProps) => {
                     setIsOpen(false);
                   }}
                 >
-                  {item || 'N/A'}
+                  {isDate ? formatDateForDisplay(item) : item || 'N/A'}
                 </div>
               ))}
             </>
