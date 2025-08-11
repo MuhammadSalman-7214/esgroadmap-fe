@@ -3,6 +3,7 @@ import {SearchInputProps} from './type';
 import Button from '../ui/button';
 
 const SearchInput: FunctionComponent<SearchInputProps> = ({
+  tableName,
   search,
   setSearch,
   onSaveSearch,
@@ -19,11 +20,13 @@ const SearchInput: FunctionComponent<SearchInputProps> = ({
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
-      <Button
-        label="Save Search"
-        className="buttonbg1 textwhite text-md sm:text-xs  px-2 py-1 cursor-pointer"
-        onClick={onSaveSearch}
-      />
+      {tableName !== 'companyUniverse' ? (
+        <Button
+          label="Save Search"
+          className="buttonbg1 textwhite text-md sm:text-xs  px-2 py-1 cursor-pointer"
+          onClick={onSaveSearch}
+        />
+      ) : null}
     </div>
   );
 };

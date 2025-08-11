@@ -133,6 +133,7 @@ const TableWithOptions = ({
   return (
     <div className="border-3 bordergray tablebg rounded-lg mx-3">
       <TableHeader
+        tableName={tableName}
         search={searchTerm}
         setSearch={setSearchTerm}
         onDownload={handleDownload}

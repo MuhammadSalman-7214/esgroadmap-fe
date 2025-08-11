@@ -3,6 +3,7 @@ import {TableHeaderProps} from './type';
 import DownloadDropdown from '../downloadDropdown';
 
 const TableHeader = ({
+  tableName,
   setSearch,
   search,
   onDownload,
@@ -16,6 +17,7 @@ const TableHeader = ({
         onDownloadComplete={onDownloadComplete}
       />
       <SearchInput
+        tableName={tableName}
         setSearch={setSearch}
         search={search}
         onSaveSearch={onSaveSearch}
