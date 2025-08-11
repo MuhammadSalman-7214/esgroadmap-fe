@@ -1,16 +1,16 @@
 import DashboardLayout from '../dashboardlayout';
 import ToolHeading from '../../components/toolHeading';
-import Button from '../../components/ui/button';
+// import Button from '../../components/ui/button';
 
 const SupportTicket = () => {
-  const handleClick = () => {
-    const email = 'team@esgroadmap.com';
-    const subject = 'Support Request';
-    const body = 'Please describe your issue here.';
-    window.location.href = `mailto:${email}?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`;
-  };
+  // const handleClick = () => {
+  //   const email = 'team@esgroadmap.com';
+  //   const subject = 'Support Request';
+  //   const body = 'Please describe your issue here.';
+  //   window.location.href = `mailto:${email}?subject=${encodeURIComponent(
+  //     subject
+  //   )}&body=${encodeURIComponent(body)}`;
+  // };
 
   return (
     <DashboardLayout>
